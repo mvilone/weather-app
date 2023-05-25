@@ -1,4 +1,4 @@
-package com.weather.weatherapp.database;
+package com.example.WeatherApp.database;
 
 public class CustomHashMap<T> extends CustomLinkedList<T> {
     
