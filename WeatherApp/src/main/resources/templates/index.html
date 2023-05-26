@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>WEATHER APP</title>
+</head>
+<body>
+<form th:action="@{userInput}" th:object="${userInput}" method="post">
+  <label>Enter Location:</label>
+  <input type="text" id="location" name="location" class="form-control">
+  <label> Enter username:</label>
+  <input type="text" id="username" name="username" class="form-control">
+  <label> Enter password:</label>
+  <input type="text" id="password" name="password" class="form-control">
+  <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>
