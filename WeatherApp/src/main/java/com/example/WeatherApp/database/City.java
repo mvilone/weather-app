@@ -1,8 +1,17 @@
 package com.example.WeatherApp.database;
 
+import com.example.WeatherApp.api.WeatherAppController;
+import com.example.WeatherApp.model.CurrentWeather;
+
+import java.io.IOException;
+
 public class City implements CityInterface{
     CustomHashMap<City> data_collection = new CustomHashMap<>();
-    public String getTempInCelcius(){
+
+    public City() {
+    }
+
+    public String getTempInCelcius() {
         return null;
     }
     public String getTempInFahrenheit(){
