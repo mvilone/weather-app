@@ -1,4 +1,4 @@
-package com.example.WeatherApp.objects;
+package com.example.WeatherApp.model;
 
 public class Day extends City{
     
