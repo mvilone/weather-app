@@ -1,4 +1,4 @@
-package com.example.WeatherApp.database;
+package com.example.WeatherApp.objects;
 
 public class Hour extends Day{
     private double temperature;
