@@ -1,5 +1,5 @@
-package com.example.WeatherApp.database;
-
+package com.example.WeatherApp.objects;
+import com.example.WeatherApp.database.CustomHashMap;
 public class City implements CityInterface{
     CustomHashMap<City> data_collection = new CustomHashMap<>();
     CustomHashMap<Day> past_five_day = new CustomHashMap<>();
