@@ -1,4 +1,4 @@
-package com.example.WeatherApp.objects;
+package com.example.WeatherApp.model;
 
 public interface CityInterface {
     public String getTempInCelcius();
