@@ -1,4 +1,4 @@
-package com.example.WeatherApp.objects;
+package com.example.WeatherApp.model;
 import com.example.WeatherApp.database.CustomHashMap;
 public class City implements CityInterface{
     CustomHashMap<City> data_collection = new CustomHashMap<>();
