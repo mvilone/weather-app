@@ -3,7 +3,7 @@ package com.example.WeatherApp.model;
 public class Hour extends Day{
     private double temperature;
     private double windSpeed;
-    private String weather_condition;
+    private Condition weather_condition;
     private String responseApi;
     public Hour(String responseApi){
         this.responseApi = responseApi;
@@ -24,7 +24,7 @@ public class Hour extends Day{
     public double getWindSpeedmph(){
         return (windSpeed * (5/8));
     }
-    public String getWeatherCondition(){
+    public Condition getWeatherCondition(){
         return weather_condition;
     }
     public String getResponseApi(){
