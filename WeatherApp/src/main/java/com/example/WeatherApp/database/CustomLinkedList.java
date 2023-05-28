@@ -55,7 +55,6 @@ public class CustomLinkedList <T>{
         CustomNode prevNode = null;
         boolean element_not_found = true;
         while((iterateNode != null) && (element_not_found == true)){
-            System.out.println("true");
             if(iterateNode.getValueNode().equals(element)){
                 element_not_found = false;
             }
@@ -64,13 +63,10 @@ public class CustomLinkedList <T>{
                 iterateNode = iterateNode.getNextNode();
             }
         }
-        System.out.println("hello");
         if(element_not_found == true){
             return false;
         }
-        System.out.println("hello");
         if(prevNode == null){
-            System.out.println("hello");
             the_head_node = the_head_node.getNextNode();
         }
         else{
