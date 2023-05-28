@@ -17,6 +17,9 @@ public class CustomHashMap<T> extends CustomLinkedList<T> {
     }
     public boolean append_element(T element){
         int index_to_place = element.hashCode() % array_in_Hash.length;
+        if(obtain_element(element) != null){
+            return false;
+        }
         size_of_array += 1;
         array_in_Hash[index_to_place].append_Node(element);
         return true;
@@ -58,6 +61,7 @@ public class CustomHashMap<T> extends CustomLinkedList<T> {
         array.append_element(21);
         array.append_element(0);
         array.append_element(19);
+        array.append_element(20);
         array.append_element(20);
 
         array.dispArray();
