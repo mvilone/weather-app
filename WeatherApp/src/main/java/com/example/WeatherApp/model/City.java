@@ -2,7 +2,9 @@ package com.example.WeatherApp.model;
 import com.example.WeatherApp.database.CustomHashMap;
 
 public class City implements CityInterface{
-    CustomHashMap<City> data_collection = new CustomHashMap<>();
+    CurrentWeather currentweather = new CurrentWeather();
+    CustomHashMap<Day> past_five_days = new CustomHashMap<>();
+    CustomHashMap<Day> future_five_days = new CustomHashMap<>();
 
     public City() {
     }
