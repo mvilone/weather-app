@@ -1,10 +1,19 @@
 package com.example.WeatherApp.domain;
 
-public class userInput {
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class userInput {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String username;
     private String password;
     private String location;
+    private String favoriteLocation;
 
     public void setUsername(String username){
         this.username = username;
@@ -23,5 +32,12 @@ public class userInput {
     }
     public String getLocation(){
         return location;
+    }
+
+    public String getFavoriteLocation(){
+        return favoriteLocation;
+    }
+    public void setFavoriteLocation(String favoriteLocation){
+        this.favoriteLocation = favoriteLocation;
     }
 }
