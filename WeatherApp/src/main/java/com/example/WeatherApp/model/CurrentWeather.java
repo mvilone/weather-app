@@ -7,10 +7,10 @@ import com.example.WeatherApp.model.Location;
 public class CurrentWeather {
 
     private Location location;
-    private CurrentWeatherInfo currentWeatherInfo;
+    private CurrentWeatherInfo current;
 
-    public void setCurrentWeatherInfo(CurrentWeatherInfo currentWeatherInfo) {
-        this.currentWeatherInfo = currentWeatherInfo;
+    public void setCurrent(CurrentWeatherInfo current) {
+        this.current = current;
     }
 
     public void setLocation(Location location) {
@@ -22,7 +22,7 @@ public class CurrentWeather {
     }
 
 
-    public CurrentWeatherInfo getCurrentWeatherInfo() {
-        return currentWeatherInfo;
+    public CurrentWeatherInfo getCurrent() {
+        return current;
     }
 }

@@ -16,22 +16,47 @@ import java.io.IOException;
 @RestController
 public class WeatherAppController {
 
-    @GetMapping
-    @RequestMapping("/home")
-    public static CurrentWeather getCurrentWeatherData() throws IOException {
-        String apiKey = "<REMOVED>";
-        String url = "http://api.weatherapi.com/v1/current.json?q=auto:ip";
+    private static final String  APIKEY = "<REMOVED>";
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("key", apiKey);
-        HttpEntity<Object> header = new HttpEntity<>(headers);
+    @RequestMapping("/home")
+    public static CurrentWeather getCurrentWeatherIPGrab() throws IOException {
+        String url = "http://api.weatherapi.com/v1/current.json?key="+APIKEY+"&q=auto:ip";
 
         RestTemplate rt = new RestTemplate();
-        ResponseEntity<String> response = rt.exchange(url, HttpMethod.GET, header, String.class);
+        ResponseEntity<String> response = rt.getForEntity(url, String.class);
 
         final ObjectMapper objectMapper = new ObjectMapper();
         final CurrentWeather currentWeather = objectMapper.readValue(response.getBody(), CurrentWeather.class);
 
         return currentWeather;
     }
+
+    public static CurrentWeather getCurrentWeatherCitySearch(String cityName) throws IOException {
+        String url = "http://api.weatherapi.com/v1/current.json?key="+APIKEY+"&q="+cityName;
+
+        RestTemplate rt = new RestTemplate();
+        ResponseEntity<String> response = rt.getForEntity(url, String.class);
+
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final CurrentWeather currentWeather = objectMapper.readValue(response.getBody(), CurrentWeather.class);
+
+        return currentWeather;
+    }
+
+    public static CurrentWeather getCurrentWeatherZipcodeSearch(int zipcode) throws IOException {
+        String url = "http://api.weatherapi.com/v1/current.json?key="+APIKEY+"&q="+String.valueOf(zipcode);
+
+        RestTemplate rt = new RestTemplate();
+        ResponseEntity<String> response = rt.getForEntity(url, String.class);
+
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final CurrentWeather currentWeather = objectMapper.readValue(response.getBody(), CurrentWeather.class);
+
+        return currentWeather;
+    }
+
+
+
+
+
 }
