@@ -1,19 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>WEATHER APP</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<form th:action="@{userInput}" th:object="${userInput}" method="post">
-  <label>Enter Location:</label>
-  <input type="text" id="location" name="location" class="form-control">
-  <label> Enter username:</label>
-  <input type="text" id="username" name="username" class="form-control">
-  <label> Enter password:</label>
-  <input type="text" id="password" name="password" class="form-control">
-  <button type="submit">Submit</button>
-</form>
 
+<body>
+<div class="container">
+  <form action="" id="login">
+    <div class="alert">Register Completed</div>
+
+    <div class="inputBox">
+      <input type="email" id="emailid" placeholder="Your Email....." />
+    </div>
+
+    <div class="inputBox">
+      <input type="text" id="password" placeholder="Your password...." />
+    </div>
+
+    <div class="inputBox">
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+<script src="loginCode.js"></script>
 </body>
+
 </html>
