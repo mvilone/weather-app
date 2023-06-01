@@ -1,11 +1,9 @@
 package com.example.WeatherApp.model;
 
-import java.io.IOException;
 
 public interface CityInterface {
-    public String getTempInCelcius() throws IOException;
-    public String getTempInFahrenheit();
-    public City getCity();
+    public void populate_hashes();
+    public String get_city_name();
     public boolean equals();
 
     

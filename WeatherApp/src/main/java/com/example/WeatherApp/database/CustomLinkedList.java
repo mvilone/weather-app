@@ -74,7 +74,7 @@ public class CustomLinkedList <T>{
             the_tail_node = prevNode;
         }
 
-        return false;
+        return true;
 
     }
     public void dispArray2(){
