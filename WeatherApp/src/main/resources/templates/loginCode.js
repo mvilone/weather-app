@@ -1,3 +1,4 @@
+
   const firebaseConfig = {
     apiKey: "<REMOVED>",
     authDomain: "weatherapp-bb11c.firebaseapp.com",
