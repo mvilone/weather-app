@@ -5,6 +5,8 @@ public class CommonWeatherData {
     private double temp_f;
     private double wind_mph;
     private double wind_kph;
+    private Location location;
+    private Forecast forecast;
     public double getTemp_c(){
         return temp_c;
     }
@@ -28,6 +30,15 @@ public class CommonWeatherData {
     }
     public void setWind_kph(double wind_kph){
         this.wind_kph = wind_kph;
+    }
+    public Location getLocation(){
+        return location;
+    }
+    public Forecast getForecast(){
+        return forecast;
+    }
+    public int getHashCode(){
+        return 0;
     }
 
     

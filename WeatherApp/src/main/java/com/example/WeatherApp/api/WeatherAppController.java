@@ -23,6 +23,7 @@ import java.io.IOException;
 public class WeatherAppController {
 
     private static final String  APIKEY = "<REMOVED>";
+    private static final int NUMBER_OF_SEC_HR = 3600;
 
     @RequestMapping("/home")
     public static CurrentWeather getCurrentWeatherIPGrab() throws IOException {
@@ -60,34 +61,51 @@ public class WeatherAppController {
 
         return currentWeather;
     }
-    public static Day getCityHourlyWeather(String cityName) throws IOException{
-        String url1 = "http://api.weatherapi.com/v1/timezone.json?key="+APIKEY+"&q="+cityName;
-        RestTemplate rt = new RestTemplate();
+    public static City getPreviousDaysForCity(String cityName, int xDay) throws IOException{
+        CurrentWeather current = getCurrentWeatherCitySearch(cityName);
+        int unix_date_time = current.getLocation().getLocaltime_epoch();
+        int number_of_secondInXDay = (NUMBER_OF_SEC_HR * 24) * xDay;
+        unix_date_time -= (number_of_secondInXDay);
         final ObjectMapper objectMapper = new ObjectMapper();
-        ResponseEntity<String> response = rt.getForEntity(url1, String.class);
-        //System.out.println(response);
-        final CurrentWeather city = objectMapper.readValue(response.getBody(), CurrentWeather.class);
+        String url = "http://api.weatherapi.com/v1/history.json?key="+APIKEY+"&q="+cityName+"&dt="+"2023-05-01";
+        RestTemplate rt = new RestTemplate();
+        ResponseEntity<String> response = rt.getForEntity(url, String.class);
+        //System.out.println(response + "yolo");
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        //City instanceCity = new City(cityName);
+        System.out.println(response);
+        City instanceCity = objectMapper.readValue(response.getBody(), City.class);
+        instanceCity.set_city_name(cityName);
+        System.out.println(instanceCity.getForecast().getForecastday().get(0).getDay() +" hello");
+        Day current_day = instanceCity.getForecast().getForecastday().get(0).getDay();
+        System.out.println(current_day.getUv()+" hello");
+        return instanceCity;
+    } 
+    public static Day getCityHourlyWeatherForDay(String cityName, String date) throws IOException{
+        final ObjectMapper objectMapper = new ObjectMapper();
+        String url = "http://api.weatherapi.com/v1/history.json?key="+APIKEY+"&q="+cityName+"&dt="+date;
+        RestTemplate rt = new RestTemplate();
         //System.out.println(city.getLocation().getLocaltime());
-        String url2 = "http://api.weatherapi.com/v1/history.json?key="+APIKEY+"&q="+cityName+"&dt="+city.getLocation().getLocaltime();
-        System.out.println(city.getLocation().getLocaltime());
-        response = rt.getForEntity(url2, String.class);
+        ResponseEntity<String> response = rt.getForEntity(url, String.class);
         //System.out.println(response);
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
-        Day test  = objectMapper.readValue(response.getBody(), Day.class);
+        Day instanceDay  = objectMapper.readValue(response.getBody(), Day.class);
         
-        ArrayList<Hour> twenty_4_hr = test.getForecast().getForecastday().get(0).getHour();
+        ArrayList<Hour> twenty_4_hr = instanceDay.getForecast().getForecastday().get(0).getHour();
+        int hour_number = 1;
         for(Hour x: twenty_4_hr){
-            test.twenty_4_hrs.append_element(x);
+            x.set_Hour_Number(hour_number);
+            instanceDay.twenty_4_hrs.append_element(x);
+            hour_number += 1;
         }
-        return test;
+        System.out.println(instanceDay.twenty_4_hrs.obtain_element(1).getTime());
+        return instanceDay;
         
-    }
-    public static String removetimefromLocaltime(String localtime){
-        return null;
     }
     public static void main(String [] args) throws IOException{
-        getCityHourlyWeather("chantilly");
+        getPreviousDaysForCity("chantilly", 5);
+        getCityHourlyWeatherForDay("chantilly", "2023-06-01");
 
     }
 
