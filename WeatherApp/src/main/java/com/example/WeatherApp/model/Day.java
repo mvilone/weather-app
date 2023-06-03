@@ -1,11 +1,12 @@
 package com.example.WeatherApp.model;
 import com.example.WeatherApp.database.CustomHashMap;
 
-public class Day{
+public class Day extends CommonWeatherData{
+    private Integer day_number = 0;
     private City day_city;
+    private String date;
+    private double uv;
     public CustomHashMap<Hour> twenty_4_hrs = new CustomHashMap<Hour>();
-    private Forecast forecast;
-    private Location location;
     public Day(){
         
     }
@@ -13,14 +14,19 @@ public class Day{
         this.day_city = city;
     }
     public String toString(){
-
-        return day_city.toString();
+        return "yolo";
     }
-    public Forecast getForecast(){
-        return forecast;
+    public void set_Day_Number(int number){
+        this.day_number = number;
     }
-    public Location getLocation(){
-        return location;
+    public String getDate(){
+        return date;
+    }
+    public int getHashCode(){
+        return day_number.hashCode();
+    }
+    public double getUv(){
+        return uv;
     }
     
     
