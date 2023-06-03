@@ -1,4 +1,5 @@
 package com.example.WeatherApp.database;
+import com.example.WeatherApp.model.*;
 /*import java.util.List;
 import java.util.Collection;
 import java.util.Iterator;
@@ -19,15 +20,15 @@ public class CustomHashMap<T> extends CustomLinkedList<T>{
         }
     }
     public boolean append_element(T element){
-        int index_to_place = element.hashCode() % array_in_Hash.length;
+        int index_to_place = generate_Hash_index(element);
         if(obtain_element(element) != null){
             return false;
         }
         array_in_Hash[index_to_place].append_Node(element);
         return true;
     }
-    public T obtain_element(T element){
-        int index_to_place = element.hashCode() % array_in_Hash.length;
+    public T obtain_element(Object element){
+        int index_to_place = generate_Hash_index(element);
         CustomNode iterateNode = array_in_Hash[index_to_place].get_the_head();
         while(iterateNode != null){
             if(iterateNode.getValueNode().equals(element)){
@@ -43,7 +44,22 @@ public class CustomHashMap<T> extends CustomLinkedList<T>{
         linked_list = array_in_Hash[index_to_place];
         return linked_list.remove_Node(element);
     }
+    public int generate_Hash_index(Object element){
+        CommonWeatherData object_class;
+        String city_name;
+        if(element instanceof CommonWeatherData){
+            object_class = (CommonWeatherData) element;
+            return object_class.getHashCode() % array_in_Hash.length;
+        }
+        else{
+            if(element instanceof String){
+                city_name = (String)element;
+                return city_name.toLowerCase().hashCode() % array_in_Hash.length;
+            }
+            return element.hashCode() % array_in_Hash.length;
+        }
 
+    }
     public void dispArray(){
         System.out.println(array_in_Hash[2]+ " hello");
         System.out.print("[");
@@ -174,6 +190,10 @@ public class CustomHashMap<T> extends CustomLinkedList<T>{
 
         array.dispArray();
         System.out.println(array.obtain_element(19)+ " element obtained");
+        String s = "maher";
+        String o = "maher";
+        System.out.println(s.hashCode());
+        System.out.println(o.hashCode());
         
 
     }
