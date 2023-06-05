@@ -47,7 +47,7 @@ public class CustomLinkedList <T>{
 
     }
 
-    public boolean remove_Node(T element){
+    public boolean remove_Node(Object element){
         if(the_head_node == null){
             return false;
         }
