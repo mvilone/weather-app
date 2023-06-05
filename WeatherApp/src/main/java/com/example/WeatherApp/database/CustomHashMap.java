@@ -1,24 +1,38 @@
 package com.example.WeatherApp.database;
 import com.example.WeatherApp.model.*;
-/*import java.util.List;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.Spliterator;
-import java.util.Comparator;*/
+/**
+ * This class implements our Custom HashMap that uses seperate chaining with a
+ * custom build linked list. So uses an array of size 20 of linked list.
+ * @param = <T> The type for items that go into each linked list.
+ */
 public class CustomHashMap<T> extends CustomLinkedList<T>{
-    
+    /**
+     * The array of linked list variable.
+     */
     private CustomLinkedList<T>[] array_in_Hash;
+    /**
+     * This method is the constructor for the CustomHashMap.
+     * Initializes the array_in_Hash and fills it up with the Custom Linked list.
+     */
     @SuppressWarnings("unchecked")
     public CustomHashMap(){
         array_in_Hash = new CustomLinkedList[20];
         fillHash();
     }
+    /**
+     * This method fills each index of array_in_Hash with a new object of Linked List.
+     */
     public void fillHash(){
         for(int x = 0; x < array_in_Hash.length; ++x){
             array_in_Hash[x] = new CustomLinkedList<T>();
         }
     }
+    /**
+     * This method Hashes to a position and appends an element to the linked list
+     * that exists at the index Hash position.
+     * @param element is the item of type T placed into the HashMap.
+     * @return False in this case if item already exists in HashMap. True otherwise.
+     */
     public boolean append_element(T element){
         int index_to_place = generate_Hash_index(element);
         if(obtain_element(element) != null){
@@ -27,6 +41,12 @@ public class CustomHashMap<T> extends CustomLinkedList<T>{
         array_in_Hash[index_to_place].append_Node(element);
         return true;
     }
+    /**
+     * This method hashes to an index postion on array_in_Hash
+     * then iterates through linked list at that position to find element.
+     * @param element of type Object to find in the array_in_Hash. Object to allow any input.
+     * @return the element is returned if it exists in array_in_Hash, null otherwise.
+     */
     public T obtain_element(Object element){
         int index_to_place = generate_Hash_index(element);
         CustomNode iterateNode = array_in_Hash[index_to_place].get_the_head();
@@ -38,12 +58,24 @@ public class CustomHashMap<T> extends CustomLinkedList<T>{
         }
         return null;
     }
-    public boolean remove_element(T element){
+    /**
+     * This method hashes to the index position that the element should exist at
+     * iterated through that linked list, and removed that object.
+     * @param element is the element to remove.
+     * @return
+     */
+    public boolean remove_element(Object element){
         int index_to_place = element.hashCode() % array_in_Hash.length;
         CustomLinkedList<T> linked_list;
         linked_list = array_in_Hash[index_to_place];
         return linked_list.remove_Node(element);
     }
+    /**
+     * This method gived either getHashCode() index of a function if it extends CommonWeatherData
+     * or gives the hash code index of the element if the class does not extend CommonWeatherData.
+     * @param element is the element to produce the Hash code index for.
+     * @return Hash code index of the element is returned.
+     */
     public int generate_Hash_index(Object element){
         CommonWeatherData object_class;
         String city_name;
@@ -76,101 +108,7 @@ public class CustomHashMap<T> extends CustomLinkedList<T>{
         System.out.print("]");
         System.out.println();
     }
-    /*public boolean add(T element){
-        return append_element(element);
-    }
-    public void add(int index, T element){
-        add(element);
-    }
-    public boolean addAll(Collection<? extends T> collection){
-        return false;
-    }
-    public boolean addAll(int index, Collection<? extends T> collection){
-        return false;
-    }
-    public void clear(){
-
-    }
-    @SuppressWarnings("unchecked")
-    public boolean contains(Object element){
-        if(obtain_element((T)element) != null){
-            return true;
-        }
-        return false;
-
-    }
-    public boolean containsAll(Collection<?> collection){
-        return false;
-    }
-    public boolean equals(Object element){
-        return this.equals(element);
-    }
-    public T get(int index){
-        return null;
-    }
-    public int hashCode(){
-        return 0;
-    }
-    public int indexOf(Object o){
-        return -1;
-    }
-    public boolean isEmpty(){
-        return false;
-    }
-    public Iterator<T> iterator(){
-        return null;
-    }
-    public int lastIndexOf(Object o){
-        return -1;
-    }
-    public ListIterator<T> listIterator(){
-        return null;
-    }
-    public T remove(int index){
-        return null;
-    }
-    @SuppressWarnings("unchecked")
-    public boolean remove(Object object){
-        return remove_element((T)object);
-    }
-    public void replaceAll(Collection<?> collection){
-
-    }
-    public T set(int index, T element){
-        return null;
-    }
-    public int size(){
-        return -1;
-    }
-    public void sort(Comparator<? super T> collection){
-
-    }
-    public Spliterator<T> spliterator(){
-        return null;
-    }
-    public List<T> subList(int fromIndex, int toIndex){
-        return null;
-    }
-    public Object[] toArray(){
-        return null;
-    }
-    @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] array){
-        for(int x = 0; x < array_in_Hash.length; ++x){
-            array[x] = (T) array_in_Hash[x];
-
-        }
-        return array;
-    }
-    public boolean retainAll(Collection<?> collection){
-        return false;
-    }
-    public boolean removeAll(Collection<?> collection){
-        return false;
-    }
-    public ListIterator<T> listIterator(int index){
-        return null;
-    }*/
+    
 
     public static void main(String[] args){
         CustomHashMap<Integer>array = new CustomHashMap<>();
