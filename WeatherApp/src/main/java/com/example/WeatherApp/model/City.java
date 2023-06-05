@@ -6,22 +6,15 @@ import com.example.WeatherApp.api.WeatherAppController;
 public class City extends CommonWeatherData implements CityInterface{
     private final int number_of_days = 5;
     private String city_name;
-    CurrentWeather currentweather = new CurrentWeather();
-    CustomHashMap<Day> past_five_days = new CustomHashMap<>();
-    CustomHashMap<Day> future_five_days = new CustomHashMap<>();
+    private CurrentWeather currentweather = new CurrentWeather();
+    private CustomHashMap<Day> past_five_days = new CustomHashMap<>();
+    private CustomHashMap<Day> future_five_days = new CustomHashMap<>();
     public City(){
         this(null);
     }
     public City(String city_name){
         this.city_name = city_name;
         populate_hashes();
-        try{
-            currentweather = WeatherAppController.getCurrentWeatherCitySearch(city_name);
-            System.out.println(currentweather.getCurrent().getTemp_c());
-        }
-        catch (Exception e){
-            System.err.println("Error city not found");
-        }
     }
 
     public void populate_hashes(){
@@ -41,6 +34,18 @@ public class City extends CommonWeatherData implements CityInterface{
     }
     public String get_city_name(){
         return city_name;
+    }
+    public void addToPastXDays(Day day){
+        past_five_days.append_element(day);
+    }
+    public void addToFutureXDays(Day day){
+        future_five_days.append_element(day);
+    }
+    public CustomHashMap<Day> getPastDays(){
+        return past_five_days;
+    }
+    public CustomHashMap<Day> getFutureDays(){
+        return future_five_days;
     }
     public boolean equals(){
         return false;
