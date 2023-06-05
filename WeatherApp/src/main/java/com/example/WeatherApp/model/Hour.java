@@ -28,6 +28,9 @@ public class Hour extends CommonWeatherData{
         }
         return equals_result;
     }
+    public String toString(){
+        return getTime();
+    }
 
     
 }

@@ -1,6 +1,7 @@
 package com.example.WeatherApp.model;
 
 public class CommonWeatherData {
+    private String date;
     private double temp_c;
     private double temp_f;
     private double wind_mph;
@@ -34,8 +35,14 @@ public class CommonWeatherData {
     public Location getLocation(){
         return location;
     }
+    public void setForecast(Forecast forecast){
+        this.forecast = forecast;
+    }
     public Forecast getForecast(){
         return forecast;
+    }
+    public String getDate(){
+        return date;
     }
     public int getHashCode(){
         return 0;
