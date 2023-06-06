@@ -77,10 +77,10 @@ public class CustomHashMap<T> extends CustomLinkedList<T>{
      * @return Hash code index of the element is returned.
      */
     public int generate_Hash_index(Object element){
-        CommonWeatherData object_class;
+        WeatherData object_class;
         String city_name;
-        if(element instanceof CommonWeatherData){
-            object_class = (CommonWeatherData) element;
+        if(element instanceof WeatherData){
+            object_class = (WeatherData) element;
             return object_class.getHashCode() % array_in_Hash.length;
         }
         else{
