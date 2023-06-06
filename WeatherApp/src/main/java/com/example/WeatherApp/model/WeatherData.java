@@ -1,6 +1,6 @@
 package com.example.WeatherApp.model;
 
-public class CommonWeatherData {
+public class WeatherData {
     private String date;
     private double temp_c;
     private double temp_f;

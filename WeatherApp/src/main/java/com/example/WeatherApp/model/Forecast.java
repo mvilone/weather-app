@@ -2,7 +2,7 @@ package com.example.WeatherApp.model;
 import java.util.ArrayList;
 import com.example.WeatherApp.database.CustomHashMap;
 
-public class Forecast extends CommonWeatherData{
+public class Forecast extends WeatherData{
     private ArrayList<Forecast> forecastday = new ArrayList<>();
     private ArrayList<Hour> hour = new ArrayList<>();
     private Day day = new Day();
