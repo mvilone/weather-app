@@ -64,18 +64,19 @@ public class WeatherAppController {
     public static City getPreviousDaysForCity(String cityName, int xDay) throws IOException{
         CurrentWeather current = getCurrentWeatherCitySearch(cityName);
         int unix_date_time = current.getLocation().getLocaltime_epoch();
+        System.out.println(unix_date_time);
         int number_of_secondInXDay = (NUMBER_OF_SEC_HR * 24) * xDay;
         unix_date_time -= (number_of_secondInXDay);
+        System.out.println(unix_date_time);
         final ObjectMapper objectMapper = new ObjectMapper();
         RestTemplate rt = new RestTemplate();
         City instanceCity = null;
-        City mergedCity = new City(cityName);
+        City mergedCity = new City(current.getLocation().getName());
         for(int x = 0; x < xDay; ++x){
             String url = "http://api.weatherapi.com/v1/history.json?key="+APIKEY+"&q="+cityName+"&unixdt="+unix_date_time;
             ResponseEntity<String> response = rt.getForEntity(url, String.class);
             objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             instanceCity = objectMapper.readValue(response.getBody(), City.class);
-            instanceCity.set_city_name(cityName);
             instanceCity = objectMapper.readValue(response.getBody(), City.class);
             Day current_day = instanceCity.getForecast().getForecastday().get(0).getDay();
             current_day.setForecast(instanceCity.getForecast().getForecastday().get(0));
@@ -110,9 +111,10 @@ public class WeatherAppController {
         
     }*/
     public static void main(String [] args) throws IOException{
-        City object = getPreviousDaysForCity("chantilly", 6);
-        System.out.println(object.getPastDays().obtain_element(1).getForecast().getDay().getForecast().getDate());
-        System.out.println(object.getPastDays().obtain_element(1).getForecast().getDay().getHoursMap().obtain_element(0));
+        City object = getPreviousDaysForCity("addis", 5);
+        System.out.println(object.get_city_name());
+        System.out.println(object.getPastDays().obtain_element(1).getForecast().getDay());
+        System.out.println(object.getPastDays().obtain_element(1).getForecast().getDay().getHoursMap().obtain_element(23));
         //getCityHourlyWeatherForDay("chantilly", "2023-06-01");
 
     }
