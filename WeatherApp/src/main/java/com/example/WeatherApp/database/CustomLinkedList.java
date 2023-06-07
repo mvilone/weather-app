@@ -137,14 +137,20 @@ public class CustomLinkedList <T>{
         return true;
 
     }
-    public void dispArray2(){
+    public String toString(){
+        String total = "[";
         CustomNode iterateNode = the_head_node;
-        System.out.print("[");
         while(iterateNode != null){
-            System.out.print(iterateNode.getValueNode() + ", ");
+            if(iterateNode.getNextNode() != null){
+                total += iterateNode.getValueNode().toString() + ", ";
+            }
+            else{
+                total += iterateNode.getValueNode().toString();
+            }
             iterateNode = iterateNode.getNextNode();
         }
-        System.out.println("]");
+        total += "]";
+        return total;
 
 
     }
@@ -156,9 +162,9 @@ public class CustomLinkedList <T>{
         array.append_Node(3);
         array.append_Node(4);
         System.out.println(array.get_the_tail().getValueNode());
-        array.dispArray2();
+        System.out.println(array);
         array.remove_Node(3);
-        array.dispArray2();
+        System.out.println(array);
         //array.dispArray2();
     }
     

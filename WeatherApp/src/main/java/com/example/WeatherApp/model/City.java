@@ -120,7 +120,7 @@ public class City extends WeatherData implements CityInterface{
         array.append_element(c);
         array.append_element(new City("Chantilly"));
         System.out.println(array.obtain_element("chAntillY").get_city_name() + " output");
-        array.dispArray();
+        System.out.println(array);
         //c.past_five_days.dispArray();
         //c.future_five_days.dispArray();
 
