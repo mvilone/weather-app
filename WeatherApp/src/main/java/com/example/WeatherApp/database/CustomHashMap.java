@@ -81,32 +81,41 @@ public class CustomHashMap<T> extends CustomLinkedList<T>{
         String city_name;
         if(element instanceof WeatherData){
             object_class = (WeatherData) element;
+            if(object_class.getHashCode() < 0){
+                return -1 * (object_class.getHashCode() % array_in_Hash.length);
+            }
             return object_class.getHashCode() % array_in_Hash.length;
         }
         else{
             if(element instanceof String){
                 city_name = (String)element;
+                if(city_name.toLowerCase().hashCode() < 0){
+                    return -1 * (city_name.toLowerCase().hashCode() % array_in_Hash.length);
+                }
                 return city_name.toLowerCase().hashCode() % array_in_Hash.length;
+            }
+            if(element.hashCode() < 0){
+                return -1 * (element.hashCode() % array_in_Hash.length);
             }
             return element.hashCode() % array_in_Hash.length;
         }
 
     }
-    public void dispArray(){
-        System.out.println(array_in_Hash[2]+ " hello");
-        System.out.print("[");
+    public String toString(){
+        String total = "[";
         int index = 0;
         for(CustomLinkedList<T> x: array_in_Hash){
-            CustomNode iterateNode = x.get_the_head();
-            while(iterateNode != null){
-                System.out.println(true);
-                System.out.print(iterateNode.getValueNode().toString() + " index:" + index + ", ");
-                iterateNode = iterateNode.getNextNode();
+            if(index < 19){
+                total += (x.toString() + ", ");
+            }
+            else{
+                total += (x.toString());  
             }
             index += 1;
         }
-        System.out.print("]");
+        total += "]";
         System.out.println();
+        return total;
     }
     
 
@@ -122,11 +131,11 @@ public class CustomHashMap<T> extends CustomLinkedList<T>{
         array.append_element(19);
         array.append_element(20);
         array.append_element(20);
-        array.dispArray();
+        System.out.println(array);
         array.remove_element(20);
         array.remove_element(0);
 
-        array.dispArray();
+        System.out.println(array);
         System.out.println(array.obtain_element(19)+ " element obtained");
         String s = "maher";
         String o = "maher";

@@ -115,6 +115,8 @@ public class WeatherAppController {
         System.out.println(object.get_city_name());
         System.out.println(object.getPastDays().obtain_element(1).getForecast().getDay());
         System.out.println(object.getPastDays().obtain_element(1).getForecast().getDay().getHoursMap().obtain_element(23));
+        System.out.println(object.getPastDays());
+        System.out.println(object.getPastDays().obtain_element(1).getForecast().getDay().getHoursMap());
         //getCityHourlyWeatherForDay("chantilly", "2023-06-01");
 
     }
