@@ -114,7 +114,6 @@ public class CustomHashMap<T> extends CustomLinkedList<T>{
             index += 1;
         }
         total += "]";
-        System.out.println();
         return total;
     }
     
