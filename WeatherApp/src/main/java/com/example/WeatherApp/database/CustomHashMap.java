@@ -62,7 +62,7 @@ public class CustomHashMap<T> extends CustomLinkedList<T>{
      * This method hashes to the index position that the element should exist at
      * iterated through that linked list, and removed that object.
      * @param element is the element to remove.
-     * @return
+     * @return element to be remove, null otherwise.
      */
     public boolean remove_element(Object element){
         int index_to_place = element.hashCode() % array_in_Hash.length;

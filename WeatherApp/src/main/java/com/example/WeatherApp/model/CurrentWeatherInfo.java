@@ -9,16 +9,16 @@ public class CurrentWeatherInfo {
     private int humidity;
     private int cloud;
 
-    private double temp_c;
-    private double temp_f;
-    private double feelslike_c;
-    private double feelslike_f;
-    private double wind_mph;
-    private double wind_kph;
-    private double pressure_mb;
-    private double pressure_in;
-    private double precip_mm;
-    private double precip_in;
+    private double temp_c = -500;
+    private double temp_f = -500;
+    private double feelslike_c = -500;
+    private double feelslike_f = -500;
+    private double wind_mph = -1;
+    private double wind_kph = -1;
+    private double pressure_mb = -1;
+    private double pressure_in = -1;
+    private double precip_mm = -1;
+    private double precip_in = -1;
     private double vis_km;
     private double vis_miles;
     private double uv;

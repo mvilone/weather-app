@@ -10,6 +10,7 @@ public class Day extends WeatherData{
      * relative to it's position in the past and future 5 day HashMaps.
      */
     private Integer day_number;
+    private double maxtemp_c = -500;
     /**
      * This is a HashMap that stores the data for twenty 4 hours weather data for the instance of the day.
      */
@@ -55,6 +56,9 @@ public class Day extends WeatherData{
      */
     public int getHashCode(){
         return day_number.hashCode();
+    }
+    public double getMaxtemp_c(){
+        return maxtemp_c; 
     }
     /**
      * This checks for equality of this and other, whether if the Day id alone is given
