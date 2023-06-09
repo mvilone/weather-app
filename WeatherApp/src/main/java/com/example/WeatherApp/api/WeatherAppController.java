@@ -1,6 +1,5 @@
 package com.example.WeatherApp.api;
 
-import java.util.Date;
 import java.util.ArrayList;
 import com.example.WeatherApp.model.*;
 import com.example.WeatherApp.database.CustomHashMap;

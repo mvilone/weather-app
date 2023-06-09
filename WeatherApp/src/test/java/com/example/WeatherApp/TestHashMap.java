@@ -6,6 +6,43 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class TestHashMap{
+    @Test 
+    void TestNullInput1(){
+        CustomHashMap<Integer> array = new CustomHashMap<>();
+        boolean appendElement = false;
+        try{
+            array.append_element(null);
+        }
+        catch (NullPointerException e){
+            appendElement = true;
+        }
+        assertTrue(appendElement);
+    }
+    @Test
+    void TestNullInput2(){
+        CustomHashMap<Integer> array = new CustomHashMap<>();
+        boolean generateHashIndex = false;
+        try{
+            array.generate_Hash_index(null);
+        }
+        catch (NullPointerException e){
+            generateHashIndex = true;
+        }
+        assertTrue(generateHashIndex);
+        
+    }
+    @Test
+    void TestNullInput3(){
+        CustomHashMap<Integer> array = new CustomHashMap<>();
+        boolean obtainElement = false;
+        try{
+            array.obtain_element(null);
+        }
+        catch (NullPointerException e){
+            obtainElement = true;
+        }
+        assertTrue(obtainElement);
+    }
     @Test
     void TestFillHash(){
         CustomHashMap<Integer> array = new CustomHashMap<>();
@@ -32,23 +69,23 @@ public class TestHashMap{
     void TestAppendElement1(){
         String expected1 = "[[0, 20], [1, 21], [2], [], [], [], [], [], [], [], " +
         "[], [], [], [], [], [], [], [], [], [19]]";
+        int input[] = {1, 2, 21, 0, 19, 20};
         CustomHashMap<Integer> array1 = new CustomHashMap<>();
-        array1.append_element(1); array1.append_element(2);
-        array1.append_element(21); array1.append_element(0);
-        array1.append_element(19); array1.append_element(20);
+        for(int i:input){
+            array1.append_element(i);
+        }
         assertEquals(expected1, array1.toString());
     }
     @Test
     void TestAppendElement2(){
         String expected2 = "[[], [], [Chantilly, Addis Ababa], [], [], [Rome], [], [], [], [], " +
         "[], [Kampala], [], [], [], [], [], [], [], [New York]]";
+        City input[] = {new City("Chantilly"), new City("Addis Ababa")
+        , new City("New York"), new City("Rome"), new City("Kampala")};
         CustomHashMap<City> array2 = new CustomHashMap<>();
-        City c1 = new City("Chantilly");
-        City c2 = new City("Addis Ababa"); City c3 = new City("New York");
-        City c4 = new City("Rome"); City c5 = new City("Kampala");
-        array2.append_element(c1); array2.append_element(c2);
-        array2.append_element(c3); array2.append_element(c4);
-        array2.append_element(c5);
+        for(City c: input){
+            array2.append_element(c);
+        }
         assertEquals(expected2, array2.toString());
 
     }
@@ -56,11 +93,11 @@ public class TestHashMap{
     void TestAppendElement3(){
         String expected3 = "[[0], [1], [2], [3], [4], [], [], [], [], [], " +
         "[], [], [], [], [], [], [], [], [18], []]";
+        int input[] = {0, 0, 1, 1, 1, 2, 3, 4};
         CustomHashMap<Integer> array3 = new CustomHashMap<>();
-        array3.append_element(0); array3.append_element(0);
-        array3.append_element(1); array3.append_element(1);
-        array3.append_element(1); array3.append_element(2);
-        array3.append_element(3); array3.append_element(4);
+        for(int i: input){
+            array3.append_element(i);
+        }
         assertTrue(array3.append_element(18)); array3.append_element(18);
         assertFalse(array3.append_element(18)); array3.append_element(18);
         array3.append_element(18); array3.append_element(18);
@@ -73,7 +110,7 @@ public class TestHashMap{
         City c3 = new City("Chantilly");
         assertTrue(array4.append_element(c1));
         assertFalse(array4.append_element(c2));
-        array4.append_element(c3);
+        assertFalse(array4.append_element(c3));
         assertEquals(expected4, array4.toString());
 
     }
@@ -106,6 +143,14 @@ public class TestHashMap{
         assertEquals(city2, array2.obtain_element(city1));
         assertTrue(city2 == array2.obtain_element(city2));
         assertFalse(city3 == array2.obtain_element(city3));
+    }
+    @Test
+    void TestRemoveElement(){
+        String expectedBefore1 = "[[0, 40], [1, 21, 41], [], [], [], [], [], [], [], [], " + 
+        "[], [], [], [], [], [], [], [], [], [19, 39, 58]]";
+        String expectedBefore2 = "[[40], [], [], [], [], [], [], [], [], [], " + 
+        "[], [], [], [], [], [], [], [], [], [58]]";
+
     }
     public static void main(String [] args){
         TestHashMap test = new TestHashMap();
