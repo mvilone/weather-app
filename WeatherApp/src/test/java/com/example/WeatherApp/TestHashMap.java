@@ -158,5 +158,53 @@ public class TestHashMap{
         test.TestEmptyHashMap();
         test.TestAppendElement3();
     }
+    /*@Test
+    void Test7() throws IOException{
+        int input[] = {22033, 10008, 70123, 065001, 2000};
+        for(int zipcode: input){
+            CurrentWeather weather = WeatherAppController.getCurrentWeatherZipcodeSearch(zipcode);
+            assertNotNull(weather.getCurrent().getTemp_c());
+        }
+    }
+    @Test
+    void Test8() throws IOException{
+        int input[] = {22033, 10008, 70123, 065001, 2000};
+        for(int zipcode: input){
+            CurrentWeather weather = WeatherAppController.getCurrentWeatherZipcodeSearch(zipcode);
+            assertNotNull(weather.getCurrent().getTemp_f());
+        }
+    }
+    @Test
+    void Test9() throws IOException{
+        int input[] = {22033, 10008, 70123, 065001, 2000};
+        for(int zipcode: input){
+            CurrentWeather weather = WeatherAppController.getCurrentWeatherZipcodeSearch(zipcode);
+            assertNotNull(weather.getCurrent().getPrecip_in());
+        }
+    }
+    @Test
+    void Test10() throws IOException{
+        int input[] = {22033, 10008, 70123, 065001, 2000};
+        for(int zipcode: input){
+            CurrentWeather weather = WeatherAppController.getCurrentWeatherZipcodeSearch(zipcode);
+            assertNotNull(weather.getCurrent().getPrecip_mm());
+        }
+    }
+    @Test
+    void Test11() throws IOException{
+        int input[] = {22033, 10008, 70123, 065001, 2000};
+        for(int zipcode: input){
+            CurrentWeather weather = WeatherAppController.getCurrentWeatherZipcodeSearch(zipcode);
+            assertNotNull(weather.getLocation().getLocaltime());
+        }
+    }
+    @Test
+    void Test12() throws IOException{
+       int input[] = {22033, 10008, 70123, 065001, 2000};
+        for(int zipcode: input){
+            CurrentWeather weather = WeatherAppController.getCurrentWeatherZipcodeSearch(zipcode);
+            assertEquals(zipcode, weather.getLocation().getName());
+        }
+    }*/
     
 }
