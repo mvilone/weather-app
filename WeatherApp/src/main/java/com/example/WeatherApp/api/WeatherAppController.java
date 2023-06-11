@@ -38,6 +38,10 @@ public class WeatherAppController {
     }
 
     public static CurrentWeather getCurrentWeatherCitySearch(String cityName) throws IOException {
+        System.out.println(containsNonCharacter(cityName) + " " + cityName);
+        if(containsNonCharacter(cityName)){
+            throw new IOException("Input must be a-z or A-Z");
+        }
         String url = "http://api.weatherapi.com/v1/current.json?key="+APIKEY+"&q="+cityName;
 
         RestTemplate rt = new RestTemplate();
@@ -61,6 +65,9 @@ public class WeatherAppController {
         return currentWeather;
     }
     public static City getPreviousDaysForCity(String cityName, int xDay) throws IOException{
+        if(containsNonCharacter(cityName)){
+            throw new IOException("Input must be a-z or A-Z");
+        }
         CurrentWeather current = getCurrentWeatherCitySearch(cityName);
         int unix_date_time = current.getLocation().getLocaltime_epoch();
         System.out.println(unix_date_time);
@@ -92,6 +99,18 @@ public class WeatherAppController {
         }
         return mergedCity;
     } 
+    public static boolean containsNonCharacter(String input){
+        input = input.replaceAll(" ", "");
+        for(int x = 0; x < input.length(); ++x){
+            char c = input.charAt(x);
+            if(!(((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')))){
+                System.out.println("true");
+                return true;
+            }
+        }
+        return false;
+
+    }
     /*public static Day getCityHourlyWeatherForDay(String cityName, String date) throws IOException{
         final ObjectMapper objectMapper = new ObjectMapper();
         String url = "http://api.weatherapi.com/v1/history.json?key="+APIKEY+"&q="+cityName+"&dt="+date;
