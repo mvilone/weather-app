@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Firebase Test</title>
+  <!-- Add the Firebase SDK script tags -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-database.js"></script>
+</head>
+<body>
+  <h1>Firebase Test</h1>
+
+  <button id="storeFavoritePlacesBtn">Store Favorite Places</button>
+  <button id="storeSearchedPlacesBtn">Store Searched Places</button>
+
+  <script>
+    // Add your Firebase configuration
+    var firebaseConfig = {
+      // Your Firebase project configuration
+      // apiKey, authDomain, databaseURL, etc.
+    };
+
+    // Initialize Firebase app
+    firebase.initializeApp(firebaseConfig);
+
+    // Function to handle storing user's favorite places
+    function storeFavoritePlaces(userId, favoritePlaces) {
+      var databaseRef = firebase.database().ref('Users/' + userId);
+
+      // Update the "favorite places" node for the user
+      databaseRef.child('favorite places').set(favoritePlaces)
+        .then(function() {
+          console.log('Favorite places stored successfully for user:', userId);
+        })
+        .catch(function(error) {
+          console.error('Error storing favorite places:', error);
+        });
+    }
+
+    // Function to handle storing user's previously searched places
+    function storeSearchedPlaces(userId, searchedPlaces) {
+      var databaseRef = firebase.database().ref('Users/' + userId);
+
+      // Push the searched places to create a new entry under "searched places" node for the user
+      databaseRef.child('searched places').push(searchedPlaces)
+        .then(function() {
+          console.log('Searched places stored successfully for user:', userId);
+        })
+        .catch(function(error) {
+          console.error('Error storing searched places:', error);
+        });
+    }
+
+    // Event listener for "Store Favorite Places" button
+    document.getElementById('storeFavoritePlacesBtn').addEventListener('click', function() {
+      var userId = '0Uy14yrbfLNvmgdtMQ8WduSAa823'; 
+      var favoritePlaces = 'Paris, New York, Tokyo'; // Replace with the favorite places
+
+      storeFavoritePlaces(userId, favoritePlaces);
+    });
+
+    // Event listener for "Store Searched Places" button
+    document.getElementById('storeSearchedPlacesBtn').addEventListener('click', function() {
+      var userId = '0Uy14yrbfLNvmgdtMQ8WduSAa823'; 
+      var searchedPlace = 'London'; // Replace with the searched place
+
+      storeSearchedPlaces(userId, searchedPlace);
+    });
+  </script>
+</body>
+</html>
