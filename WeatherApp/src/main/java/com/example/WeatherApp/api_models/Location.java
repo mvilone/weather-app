@@ -1,4 +1,4 @@
-package com.example.WeatherApp.model;
+package com.example.WeatherApp.api_models;
 
 public class Location {
     private String name;

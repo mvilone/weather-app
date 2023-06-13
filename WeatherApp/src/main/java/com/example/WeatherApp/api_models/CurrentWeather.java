@@ -1,8 +1,5 @@
-package com.example.WeatherApp.model;
+package com.example.WeatherApp.api_models;
 
-
-import com.example.WeatherApp.model.CurrentWeatherInfo;
-import com.example.WeatherApp.model.Location;
 
 public class CurrentWeather {
 
