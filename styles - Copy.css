@@ -1,0 +1,56 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin:0;
+    background-color: beige;
+}
+/* Applies to everything. */
+.nav {
+    background-color:cadetblue;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 1rem;
+    font-size: 2rem;
+    text-decoration:solid;
+}
+
+.container {
+    margin: 1rem;
+    align-items: center;
+
+}
+
+.nav a {
+    color: inherit;
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: .25rem;
+
+    
+}
+
+/* Code relating to the list values. */
+.nav ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+/*
+.nav li.active {
+    background-color:burlywood;
+}
+*/
+
+.nav li:hover {
+    background-color: burlywood;
+}
