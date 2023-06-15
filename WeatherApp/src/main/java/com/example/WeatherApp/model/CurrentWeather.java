@@ -8,14 +8,19 @@ public class CurrentWeather {
 
     private Location location;
     private CurrentWeatherInfo current;
+    private Day currentDay = null;
 
     public void setCurrent(CurrentWeatherInfo current) {
         this.current = current;
+    }
+    public void setCurrentDay(Day currentDay){
+        this.currentDay = currentDay;
     }
 
     public void setLocation(Location location) {
         this.location = location;
     }
+    
 
     public Location getLocation() {
         return location;
@@ -25,4 +30,12 @@ public class CurrentWeather {
     public CurrentWeatherInfo getCurrent() {
         return current;
     }
+    
+    public Day getCurrentDay(){
+        return currentDay;
+    }
+
+
+    
+    
 }

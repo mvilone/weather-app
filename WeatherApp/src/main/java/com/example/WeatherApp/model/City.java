@@ -46,6 +46,9 @@ public class City extends WeatherData implements CityInterface{
         this.currentweather = currentweather;
 
     }
+    /** 
+     * This sets the cities name which is the id of an instance of a city.
+     */
     /**
      * This gives the City objects name which is the id of an instance of a city.
      * @return city_name, the name of the city.
