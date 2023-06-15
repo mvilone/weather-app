@@ -107,6 +107,7 @@ public class UnitTest{
         String expectation[] = {"Fairfax", "New York", "Paris", "Beijing", "Sydney"};
         int i = 0;
         for(String c: input){
+            WeatherAppController.initializeCityObject('c', c, -1);
             City city = WeatherAppController.getPreviousDaysForCity(c, 5);
             assertEquals(expectation[i], city.get_city_name());
             i++;
@@ -121,6 +122,7 @@ public class UnitTest{
     void Test8() throws IOException{
         String input[] = {"Fairfax", "New York", "Paris", "Beijing", "Sydney"};
         for(String c: input){
+            WeatherAppController.initializeCityObject('c', c, -1);
             City city = WeatherAppController.getPreviousDaysForCity(c, 5);
             assertNotNull(city.getPastDays().obtain_element(1));
         }
@@ -134,6 +136,7 @@ public class UnitTest{
     void Test9() throws IOException{
         String input[] = {"Fairfax", "New York", "Paris", "Beijing", "Sydney"};
         for(String c: input){
+            WeatherAppController.initializeCityObject('c', c, -1);
             City city = WeatherAppController.getPreviousDaysForCity(c, 5);
             assertNotNull(city.getPastDays().obtain_element(1).getHoursMap());
         }
@@ -147,6 +150,7 @@ public class UnitTest{
     void Test10() throws IOException{
         String input[] = {"Fairfax", "New York", "Paris", "Beijing", "Sydney"};
         for(String c: input){
+            WeatherAppController.initializeCityObject('c', c, -1);
             City city = WeatherAppController.getPreviousDaysForCity(c, 5);
             assertTrue(city.getPastDays().obtain_element(1).getMaxtemp_c() >= -273);
         }
@@ -161,6 +165,7 @@ public class UnitTest{
     void Test11() throws IOException{
         String input[] = {"Fairfax", "New York", "Paris", "Beijing", "Sydney"};
         for(String c: input){
+            WeatherAppController.initializeCityObject('c', c, -1);
             City city = WeatherAppController.getPreviousDaysForCity(c, 5);
             assertNotNull(city.getPastDays().obtain_element(1).getHoursMap().obtain_element(15).getTime());
         }
