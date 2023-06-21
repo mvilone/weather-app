@@ -1,4 +1,6 @@
 package com.example.WeatherApp.database;
+import java.util.ArrayList;
+
 import com.example.WeatherApp.model.*;
 /**
  * This class implements our Custom HashMap that uses seperate chaining with a
@@ -71,7 +73,7 @@ public class CustomHashMap<T> extends CustomLinkedList<T>{
         return linked_list.remove_Node(element);
     }
     /**
-     * This method gived either getHashCode() index of a function if it extends CommonWeatherData
+     * This method gived either giveHashCode() index of a function if it extends CommonWeatherData
      * or gives the hash code index of the element if the class does not extend CommonWeatherData.
      * @param element is the element to produce the Hash code index for.
      * @return Hash code index of the element is returned.
@@ -81,10 +83,10 @@ public class CustomHashMap<T> extends CustomLinkedList<T>{
         String city_name;
         if(element instanceof WeatherData){
             object_class = (WeatherData) element;
-            if(object_class.getHashCode() < 0){
-                return -1 * (object_class.getHashCode() % array_in_Hash.length);
+            if(object_class.giveHashCode() < 0){
+                return -1 * (object_class.giveHashCode() % array_in_Hash.length);
             }
-            return object_class.getHashCode() % array_in_Hash.length;
+            return object_class.giveHashCode() % array_in_Hash.length;
         }
         else{
             if(element instanceof String){
@@ -100,6 +102,33 @@ public class CustomHashMap<T> extends CustomLinkedList<T>{
             return element.hashCode() % array_in_Hash.length;
         }
 
+    }
+    public ArrayList<T> toArrayList(){
+        ArrayList<T> array = new ArrayList<>();
+        T element = array_in_Hash[1].get_the_head().getValueNode();
+        if((element instanceof Day) || (element instanceof Hour)){
+            int start = 0, end = 19;
+            if(element instanceof Day){
+                start = 1; end = 5;
+            }
+            while(start <= end){
+                CustomNode temp = array_in_Hash[start].get_the_head();
+                while(temp != null){
+                    array.add(temp.getValueNode());
+                    temp = temp.getNextNode();
+                }
+                start += 1;
+            }
+            return array;
+        }
+        for(CustomLinkedList<T> x: array_in_Hash){
+            CustomNode temp = x.get_the_head();
+            while(temp != null){
+                array.add(temp.getValueNode());
+            }
+        }
+
+        return array;
     }
     public String toString(){
         String total = "[";
