@@ -94,14 +94,14 @@ public class WeatherAppController {
             instanceForecasted = getForecastWeatherCitySearch(cityName, "history.json", unix_date_time);
             Day current_day = instanceForecasted.getForecast().getForecastday().get(0).getDay();
             current_day.setForecast(instanceForecasted.getForecast().getForecastday().get(0));
-            current_day.set_Day_Number(x + 1);
+            current_day.setDay_number(x + 1);
             cityObject.addToPastXDays(current_day);
             unix_date_time += (NUMBER_OF_SEC_HR * 24);
         }
         for(int x = 0; x < xDay; ++x){
             for(int y = 0; y < 24; ++y){
                 Hour h = cityObject.getPastDays().obtain_element(x + 1).getForecast().getHour().get(y);
-                h.set_Hour_Number(y);
+                h.setHour_number(y);
                 cityObject.getPastDays().obtain_element(x + 1).addToHours(h);
             }
         }
@@ -120,14 +120,14 @@ public class WeatherAppController {
             instanceForecasted = getForecastWeatherCitySearch(cityName, "forecast.json", unix_date_time);
             Day current_day = instanceForecasted.getForecast().getForecastday().get(0).getDay();
             current_day.setForecast(instanceForecasted.getForecast().getForecastday().get(0));
-            current_day.set_Day_Number(x + 1);
+            current_day.setDay_number(x + 1);
             cityObject.addToFutureXDays(current_day);
             unix_date_time += (NUMBER_OF_SEC_HR * 24);
         }
         for(int x = 0; x < xDay; ++x){
             for(int y = 0; y < 24; ++y){
                 Hour h = cityObject.getFutureDays().obtain_element(x + 1).getForecast().getHour().get(y);
-                h.set_Hour_Number(y);
+                h.setHour_number(y);
                 cityObject.getFutureDays().obtain_element(x + 1).addToHours(h);
             }
         }
@@ -142,7 +142,7 @@ public class WeatherAppController {
         currentDay.setForecast(forecastedweather.getForecast().getForecastday().get(0));
         for(int x = 0; x < 24; ++x){
             Hour h = currentDay.getForecast().getHour().get(x);
-            h.set_Hour_Number(x);
+            h.setHour_number(x);
             currentDay.addToHours(h);
         }
         currentweather.setCurrentDay(currentDay);
@@ -189,7 +189,7 @@ public class WeatherAppController {
         String flagString = String.valueOf(flag).toLowerCase();
         flag = flagString.charAt(0);
         CurrentWeather currentweather = initializeCityObject(flag, cityName, zipcode);
-        cityObject.setCurrentWeather(currentweather);
+        cityObject.setCurrentweather(currentweather);
         getPreviousDaysForCity(currentweather.getLocation().getName(), 5);
         getNextDaysForCity(currentweather.getLocation().getName(), 5);
 
@@ -198,15 +198,15 @@ public class WeatherAppController {
     }
     public static void main(String [] args) throws IOException{
         City test = populateCity('z', null, 77494);
-        System.out.println(test.getCurrentWeather().getCurrent().getFeelslike_f());
-        System.out.println(test.getCurrentWeather().getCurrentDay());
-        System.out.println(test.getCurrentWeather().getCurrentDay().getHoursMap());
-        System.out.println(test.get_city_name());
+        System.out.println(test.getCurrentweather().getCurrent().getFeelslike_f());
+        System.out.println(test.getCurrentweather().getCurrentDay());
+        System.out.println(test.getCurrentweather().getCurrentDay().getHoursMap());
+        System.out.println(test.getCity_name());
         System.out.println(test.getPastDays().obtain_element(1).getForecast().getDay());
         System.out.println(test.getPastDays().obtain_element(1).getForecast().getDay().getHoursMap().obtain_element(23));
         System.out.println(test.getPastDays());
         System.out.println(test.getPastDays().obtain_element(1).getForecast().getDay().getHoursMap());
-        System.out.println(test.get_city_name());
+        System.out.println(test.getCity_name());
         System.out.println(test.getFutureDays().obtain_element(1).getForecast().getDay());
         System.out.println(test.getFutureDays().obtain_element(1).getForecast().getDay().getHoursMap().obtain_element(23));
         System.out.println(test.getFutureDays());

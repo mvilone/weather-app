@@ -1,5 +1,9 @@
 package com.example.WeatherApp.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+
 public class WeatherData {
     private String date;
     private double temp_c;
@@ -35,6 +39,10 @@ public class WeatherData {
     public Location getLocation(){
         return location;
     }
+    
+    public void setLocation(Location location) {
+        this.location = location;
+    }
     public void setForecast(Forecast forecast){
         this.forecast = forecast;
     }
@@ -44,7 +52,7 @@ public class WeatherData {
     public String getDate(){
         return date;
     }
-    public int getHashCode(){
+    public int giveHashCode(){
         return 0;
     }
 

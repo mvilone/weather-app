@@ -1,8 +1,21 @@
 package com.example.WeatherApp.model;
 
-public class CurrentWeatherInfo {
-    private Condition condition;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
+@Entity
+@Table(name="CurrentWeatherInfo")
+public class CurrentWeatherInfo {
+    private int currentweatherinfoid;
+    private Condition condition;
     private int last_updated_epoch;
     private int is_day;
     private int wind_degree;
@@ -27,7 +40,13 @@ public class CurrentWeatherInfo {
 
     private String last_updated;
     private String wind_dir;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getCurrentweatherinfoid() {
+        return currentweatherinfoid;
+    }
+    @OneToOne(cascade=CascadeType.ALL, targetEntity=Condition.class)
+    @JoinColumn
     public Condition getCondition() {
         return condition;
     }
@@ -115,6 +134,10 @@ public class CurrentWeatherInfo {
         return last_updated;
     }
 
+    public void setCurrentweatherinfoid(int currentweatherinfoid) {
+        this.currentweatherinfoid = currentweatherinfoid;
+    }
+    
     public void setLast_updated(String last_updated) {
         this.last_updated = last_updated;
     }
@@ -130,7 +153,6 @@ public class CurrentWeatherInfo {
     public void setCloud(int cloud) {
         this.cloud = cloud;
     }
-
     public void setCondition(Condition condition) {
         this.condition = condition;
     }
