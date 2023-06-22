@@ -109,7 +109,7 @@ public class UnitTest{
         for(String c: input){
             WeatherAppController.initializeCityObject('c', c, -1);
             City city = WeatherAppController.getPreviousDaysForCity(c, 5);
-            assertEquals(expectation[i], city.get_city_name());
+            assertEquals(expectation[i], city.getCity_name());
             i++;
         }
     }
