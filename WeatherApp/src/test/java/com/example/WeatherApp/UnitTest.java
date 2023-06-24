@@ -5,6 +5,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.example.WeatherApp.api.WeatherAppController;
 import com.example.WeatherApp.model.*;
 import java.io.IOException;
+import static io.restassured.RestAssured.when;
+import static org.hamcrest.Matchers.equalTo;
 @SpringBootTest
 /**
  * This class tests that the api extraction and behavior.
@@ -109,7 +111,7 @@ public class UnitTest{
         for(String c: input){
             WeatherAppController.initializeCityObject('c', c, -1);
             City city = WeatherAppController.getPreviousDaysForCity(c, 5);
-            assertEquals(expectation[i], city.get_city_name());
+            assertEquals(expectation[i], city.getCity_name());
             i++;
         }
     }
@@ -207,6 +209,84 @@ public class UnitTest{
         assertTrue(exceptionThrown);
 
     }
+    /**
+     * Testing populate city when inputting city string, and testing that city 
+     * object has one of the weather data correctly inputted.
+     * @throws IOException
+     */
+    @Test
+    void Test14() throws IOException{
+        String input[] = {"Fairfax", "New YOrk", " Paris", "Beijing", " Sydney"};
+        String expected[] = {"Fairfax", "New York", "Paris", "Beijing", "Sydney"};
+        int i = 0;
+        for(String cityName: input){
+            City city = WeatherAppController.populateCity('c', cityName, -1);
+            assertEquals(expected[i], city.getCity_name());
+            i += 1;
+        }
+        
+
+
+    }
+    /**
+     * Testing populate city when inputting integer zipcode, and testing that city 
+     * object has one of the weather data correctly inputted.
+     * @throws IOException
+     */
+    @Test 
+    void Test15() throws IOException{
+        int input[] = {22033, 10004, 43085, 98108, 48215};
+        String expected[] = {"Fairfax", "New York", "Columbus", "Seattle", "Detroit"};
+        int i = 0;
+        for(int zipcode: input){
+            City city = WeatherAppController.populateCity('z', null, zipcode);
+            assertEquals(expected[i], city.getCity_name());
+            i += 1;
+        }   
+
+    }
+    /**
+     * Testing populate city when using ip address, and testing that city 
+     * object has one of the weather data correctly inputted.
+     * @throws IOException
+     */
+    @Test
+    void Test16() throws IOException{
+        City city1 = new City();
+        City city2 = WeatherAppController.populateCity('i', null, -1);
+        assertNull(city1.getCity_name());
+        assertNotNull(city2.getCity_name());
+
+
+    }
+
+    //End point integration Test
+    @Test
+    void Test17(){
+        when()
+        .get("http://localhost:8080/city/getCity")
+        .then()
+        .statusCode(200)
+        .body("city_name", equalTo("Alexandria"));
+    }
+    @Test
+    void Test18(){
+        when()
+        .get("http://localhost:8080/city/getCity")
+        .then()
+        .statusCode(200)
+        .body("city_name", equalTo("Washington"));
+    }
+    @Test
+    void Test19(){
+        when()
+        .get("http://localhost:8080/city/getCity")
+        .then()
+        .statusCode(200)
+        .body("city_name", equalTo("Austin"));
+    }
+
+
 
     
 
