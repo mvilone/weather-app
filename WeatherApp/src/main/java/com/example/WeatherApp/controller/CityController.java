@@ -33,7 +33,7 @@ public class CityController {
     public City get(){
         City city = null;
         try{
-            city = WeatherAppController.populateCity('c', "chantilly", -1);
+            city = WeatherAppController.populateCity('i', null, -1);
         }
         catch(IOException e){
 
@@ -76,7 +76,7 @@ public class CityController {
     public City populateCity(){
         City city = null;
         try{
-            city = WeatherAppController.populateCity('c', "chantilly", -1);
+            city = WeatherAppController.populateCity('c', "Fairfax", -1);
         }
         catch(IOException e){
 
