@@ -11,7 +11,7 @@ import jakarta.persistence.Transient;
  * Hour is a WeatherData that's why it extends it.
  */
 @Entity
-public class Hour extends WeatherData{
+public class Hour extends HourWeatherInfo{
     private int id;
     /**This represents the id of the Hour object
      * relative to it's position in the twenty 4 hour HashMap.
