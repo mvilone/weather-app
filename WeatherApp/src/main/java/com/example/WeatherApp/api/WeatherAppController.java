@@ -7,6 +7,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 
+import jakarta.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,8 +23,13 @@ import java.io.IOException;
 
 @RestController
 public class WeatherAppController {
-
-    private static final String  APIKEY = "<REMOVED>";
+    @Value("${weather.api.key}")
+    private String apiKey;
+    private static String  APIKEY;
+    @PostConstruct
+    private void init(){
+        APIKEY = apiKey;
+    }
     private static final int NUMBER_OF_SEC_HR = 3600;
     private static City cityObject = null;
 
