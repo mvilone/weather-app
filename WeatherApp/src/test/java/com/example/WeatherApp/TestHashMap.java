@@ -3,8 +3,8 @@ import com.example.WeatherApp.database.CustomHashMap;
 import com.example.WeatherApp.model.*;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-@SpringBootTest
+//import org.springframework.boot.test.context.SpringBootTest;
+//@SpringBootTest
 public class TestHashMap{
     @Test 
     void TestNullInput1(){
