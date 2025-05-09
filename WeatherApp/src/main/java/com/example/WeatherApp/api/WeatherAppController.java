@@ -4,6 +4,10 @@ import com.example.WeatherApp.api_models.CurrentWeather;
 import com.example.WeatherApp.api_models.ForecastedWeather;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +17,14 @@ import java.io.IOException;
 
 @RestController
 public class WeatherAppController {
-
-    private static final String  APIKEY = "<REMOVED>";
+    
+    @Value("${weather.api.key}")
+    private String apiKey;
+    private static String  APIKEY;
+    @PostConstruct
+    private void init() {
+        APIKEY = apiKey;
+    }
 
     public static CurrentWeather getCurrentWeatherIPGrab() throws IOException {
         String url = "http://api.weatherapi.com/v1/current.json?key="+APIKEY+"&q=auto:ip";
