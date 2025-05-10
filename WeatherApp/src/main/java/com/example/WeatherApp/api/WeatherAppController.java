@@ -1,6 +1,8 @@
 package com.example.WeatherApp.api;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
+
 import com.example.WeatherApp.model.*;
 import com.example.WeatherApp.database.CustomHashMap;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -35,6 +37,27 @@ public class WeatherAppController {
     private static final int NUMBER_OF_SEC_HR = 3600;
     private static City cityObject = null;
 
+    public static <T> T withRetries(Callable<T> task, int maxRetries, long delayMillis) throws IOException {
+        int attempt = 0;
+        while (true) {
+            try {
+                return task.call();
+            } catch (Exception e) {
+                attempt++;
+                if (attempt > maxRetries) {
+                    throw new IOException("Failed after " + maxRetries + " retries", e);
+                }
+                try {
+                    Thread.sleep(delayMillis);
+                }catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    throw new IOException("Retry interrupted", ie);
+                }
+            }
+        }
+    }
+
+
     @RequestMapping("/home")
     public static CurrentWeather getCurrentWeatherIPGrab() throws IOException {
         String url = "http://api.weatherapi.com/v1/current.json?key="+APIKEY+"&q=auto:ip";
@@ -49,19 +72,22 @@ public class WeatherAppController {
     }
 
     public static CurrentWeather getCurrentWeatherCitySearch(String cityName) throws IOException {
-        if(containsNonCharacter(cityName)){
+        if (containsNonCharacter(cityName)) {
             throw new IOException("Input must be a-z or A-Z");
         }
-        String url = "http://api.weatherapi.com/v1/current.json?key="+APIKEY+"&q="+cityName;
-
-        RestTemplate rt = new RestTemplate();
-        ResponseEntity<String> response = rt.getForEntity(url, String.class);
-
-        final ObjectMapper objectMapper = new ObjectMapper();
-        final CurrentWeather currentWeather = objectMapper.readValue(response.getBody(), CurrentWeather.class);
-
-        return currentWeather;
+        
+        String url = "http://api.weatherapi.com/v1/current.json?key=" + APIKEY + "&q=" + cityName;
+        
+        Callable<CurrentWeather> task = () -> {
+            RestTemplate rt = new RestTemplate();
+            ResponseEntity<String> response = rt.getForEntity(url, String.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(response.getBody(), CurrentWeather.class);
+        };
+        
+        return withRetries(task, 3, 1000); // 3 retries, 2s delay between retries
     }
+
 
     public static CurrentWeather getCurrentWeatherZipcodeSearch(int zipcode) throws IOException {
         String url = "http://api.weatherapi.com/v1/current.json?key="+APIKEY+"&q="+String.valueOf(zipcode);
@@ -76,21 +102,24 @@ public class WeatherAppController {
     }
 
     public static ForecastedWeather getForecastWeatherCitySearch(String cityName, String file, int unixdate) throws IOException {
-        if(containsNonCharacter(cityName)){
+        if (containsNonCharacter(cityName)) {
             throw new IOException("Input must be a-z or A-Z");
         }
+        
         String encodedCity = URLEncoder.encode(cityName, StandardCharsets.UTF_8);
-        String url = "http://api.weatherapi.com/v1/"+file+"?key="+APIKEY+"&q="+encodedCity+"&unixdt="+unixdate;
+        String url = "http://api.weatherapi.com/v1/" + file + "?key=" + APIKEY + "&q=" + encodedCity + "&unixdt=" + unixdate;
         System.out.println("Web Link: " + url);
-
-        RestTemplate rt = new RestTemplate();
-        ResponseEntity<String> response = rt.getForEntity(url, String.class);
-        final ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        final ForecastedWeather forecast = objectMapper.readValue(response.getBody(), ForecastedWeather.class);
-
-        return forecast;
+        
+        return withRetries(() -> {
+            RestTemplate rt = new RestTemplate();
+            ResponseEntity<String> response = rt.getForEntity(url, String.class);
+            
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            return objectMapper.readValue(response.getBody(), ForecastedWeather.class);
+        }, 7, 4000); // Retry up to 3 times with 1 second delay
     }
+
 
     
     public static City getPreviousDaysForCity(String cityName, int xDay) throws IOException{
