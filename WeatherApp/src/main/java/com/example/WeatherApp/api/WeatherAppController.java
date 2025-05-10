@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.net.URLEncoder;
 
 @RestController
 public class WeatherAppController {
@@ -77,7 +79,9 @@ public class WeatherAppController {
         if(containsNonCharacter(cityName)){
             throw new IOException("Input must be a-z or A-Z");
         }
-        String url = "http://api.weatherapi.com/v1/"+file+"?key="+APIKEY+"&q="+cityName+"&unixdt="+unixdate;
+        String encodedCity = URLEncoder.encode(cityName, StandardCharsets.UTF_8);
+        String url = "http://api.weatherapi.com/v1/"+file+"?key="+APIKEY+"&q="+encodedCity+"&unixdt="+unixdate;
+        System.out.println("Web Link: " + url);
 
         RestTemplate rt = new RestTemplate();
         ResponseEntity<String> response = rt.getForEntity(url, String.class);
@@ -206,19 +210,19 @@ public class WeatherAppController {
     }
     public static void main(String [] args) throws IOException{
         City test = populateCity('z', null, 77494);
-        System.out.println(test.getCurrentweather().getCurrent().getFeelslike_f());
-        System.out.println(test.getCurrentweather().getCurrentDay());
-        System.out.println(test.getCurrentweather().getCurrentDay().getHoursMap());
-        System.out.println(test.getCity_name());
-        System.out.println(test.getPastDays().obtain_element(1).getForecast().getDay());
-        System.out.println(test.getPastDays().obtain_element(1).getForecast().getDay().getHoursMap().obtain_element(23));
-        System.out.println(test.getPastDays());
-        System.out.println(test.getPastDays().obtain_element(1).getForecast().getDay().getHoursMap());
-        System.out.println(test.getCity_name());
-        System.out.println(test.getFutureDays().obtain_element(1).getForecast().getDay());
-        System.out.println(test.getFutureDays().obtain_element(1).getForecast().getDay().getHoursMap().obtain_element(23));
-        System.out.println(test.getFutureDays());
-        System.out.println(test.getFutureDays().obtain_element(1).getForecast().getDay().getHoursMap());
+        //System.out.println(test.getCurrentweather().getCurrent().getFeelslike_f());
+        //System.out.println(test.getCurrentweather().getCurrentDay());
+        //System.out.println(test.getCurrentweather().getCurrentDay().getHoursMap());
+        //System.out.println(test.getCity_name());
+        //System.out.println(test.getPastDays().obtain_element(1).getForecast().getDay());
+        //System.out.println(test.getPastDays().obtain_element(1).getForecast().getDay().getHoursMap().obtain_element(23));
+        //System.out.println(test.getPastDays());
+        //System.out.println(test.getPastDays().obtain_element(1).getForecast().getDay().getHoursMap());
+        //System.out.println(test.getCity_name());
+        //System.out.println(test.getFutureDays().obtain_element(1).getForecast().getDay());
+        //System.out.println(test.getFutureDays().obtain_element(1).getForecast().getDay().getHoursMap().obtain_element(23));
+        //System.out.println(test.getFutureDays());
+        //System.out.println(test.getFutureDays().obtain_element(1).getForecast().getDay().getHoursMap());
 
     }
 
