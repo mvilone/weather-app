@@ -24,6 +24,7 @@ public class UnitTest{
 
     @BeforeAll
     public static void setup() {
+    System.out.println("setup");
     // Step up one directory to get to the .env file
     String envPath = Paths.get(System.getProperty("user.dir"))
                           .getParent() // Go from /WeatherApp to /CS321-Group-5
@@ -41,9 +42,20 @@ public class UnitTest{
     // Optional custom properties
     System.setProperty("weather.api.key", dotenv.get("WEATHER_API_KEY"));
     }
-
      
-
+    @Test
+    void testSingleForecastCall() {
+        System.err.println(">>>> THIS SHOULD PRINT <<<<");
+        try {
+            WeatherAppController.initializeCityObject('c', "Paris", -1);
+            City city = WeatherAppController.getPreviousDaysForCity("Paris", 1);
+            assertEquals("Paris", city.getCity_name());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            fail("Single API call failed: " + e.getMessage());
+        }
+    }
 
 
     @Test
