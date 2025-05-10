@@ -1,17 +1,51 @@
 package com.example.WeatherApp;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.client.HttpServerErrorException;
+
 import com.example.WeatherApp.api.WeatherAppController;
 import com.example.WeatherApp.model.*;
+
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.io.IOException;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.equalTo;
+import java.nio.file.Paths;
+import java.util.concurrent.Callable;
 @SpringBootTest
 /**
  * This class tests that the api extraction and behavior.
  */
 public class UnitTest{
+    static Dotenv dotenv;
+
+    @BeforeAll
+    public static void setup() {
+    // Step up one directory to get to the .env file
+    String envPath = Paths.get(System.getProperty("user.dir"))
+                          .getParent() // Go from /WeatherApp to /CS321-Group-5
+                          .toString();
+
+    dotenv = Dotenv.configure()
+                   .filename(".env")
+                   .directory(envPath)
+                   .load();
+
+    // Set the properties Spring Boot expects for MySQL
+    System.setProperty("spring.datasource.username", "root");  // or get from dotenv if not hardcoded
+    System.setProperty("spring.datasource.password", dotenv.get("MYSQL_PASSWORD"));
+
+    // Optional custom properties
+    System.setProperty("weather.api.key", dotenv.get("WEATHER_API_KEY"));
+    }
+
+     
+
+
+
     @Test
     /**
      * This method tests that the attribute Temperature in celcius 
@@ -19,6 +53,11 @@ public class UnitTest{
      * @throws IOException
      */
     void Test1() throws IOException{
+        String apiKey = dotenv.get("WEATHER_API_KEY");
+        String mysqlPassword = dotenv.get("MYSQL_PASSWORD");
+
+        //System.out.println("API Key: " + apiKey);
+        //System.out.println("MySQL Password: " + mysqlPassword);
         String input[] = {"Fairfax", "New York", "Paris", "Beijing", "Sydney"};
         for(String city: input){
             CurrentWeather weather = WeatherAppController.getCurrentWeatherCitySearch(city);
@@ -284,6 +323,16 @@ public class UnitTest{
         .then()
         .statusCode(200)
         .body("city_name", equalTo("Austin"));
+    }
+
+    public static void main(String [] args){
+        UnitTest u = new UnitTest();
+        try{
+            u.Test1();
+        }
+        catch(Exception e){
+
+        }
     }
 
 

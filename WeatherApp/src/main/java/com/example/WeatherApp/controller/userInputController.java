@@ -21,9 +21,9 @@ public class userInputController {
 
         //The location, username, and password are being set in the index.html file, which is why we're able to use the getters
         //(the print statements just shows that it's getting the correct information. (Can delete))
-        System.out.println("Location: " + input.getLocation());
-        System.out.println("username: " + input.getUsername());
-        System.out.println("password: " + input.getPassword());
+        //System.out.println("Location: " + input.getLocation());
+        //System.out.println("username: " + input.getUsername());
+        //System.out.println("password: " + input.getPassword());
 
         //returns "weatherDisplay" because this is the name of the html file (new webpage) that will be displayed
         return "weatherDisplay";
