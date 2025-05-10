@@ -159,16 +159,16 @@ public class CustomHashMap<T> extends CustomLinkedList<T>{
         array.append_element(19);
         array.append_element(20);
         array.append_element(20);
-        System.out.println(array);
+        //System.out.println(array);
         array.remove_element(20);
         array.remove_element(0);
 
-        System.out.println(array);
-        System.out.println(array.obtain_element(19)+ " element obtained");
+        //System.out.println(array);
+        //System.out.println(array.obtain_element(19)+ " element obtained");
         String s = "maher";
         String o = "maher";
-        System.out.println(s.hashCode());
-        System.out.println(o.hashCode());
+        //System.out.println(s.hashCode());
+        //System.out.println(o.hashCode());
         
 
     }

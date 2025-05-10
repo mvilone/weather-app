@@ -161,10 +161,10 @@ public class CustomLinkedList <T>{
         array.append_Node(2);
         array.append_Node(3);
         array.append_Node(4);
-        System.out.println(array.get_the_tail().getValueNode());
-        System.out.println(array);
+        //System.out.println(array.get_the_tail().getValueNode());
+        //System.out.println(array);
         array.remove_Node(3);
-        System.out.println(array);
+        //System.out.println(array);
         //array.dispArray2();
     }
     

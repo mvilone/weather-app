@@ -57,7 +57,6 @@ public class City extends WeatherData implements CityInterface{
      * @param city_name is the id of the city, for instance an example would be New York.
      */
     public City(String city_name){
-        System.out.println("yokasks");
         currentweather = null;
         past_five_days = new CustomHashMap<>();
         future_five_days = new CustomHashMap<>();
@@ -192,7 +191,7 @@ public class City extends WeatherData implements CityInterface{
         array.append_element(c);
         array.append_element(new City("Chantilly"));
         //System.out.println(array.obtain_element("chAntillY").get_city_name() + " output");
-        System.out.println(array);
+        //System.out.println(array);
         //c.past_five_days.dispArray();
         //c.future_five_days.dispArray();
 

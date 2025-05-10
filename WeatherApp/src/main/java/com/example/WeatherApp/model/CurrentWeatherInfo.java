@@ -1,5 +1,9 @@
 package com.example.WeatherApp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +17,7 @@ import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="CurrentWeatherInfo")
+@JsonIgnoreProperties({ "windchill_c", "windchill_f", "heatindex_c", "heatindex_f", "dewpoint_c", "dewpoint_f"})
 public class CurrentWeatherInfo {
     private int currentweatherinfoid;
     private Condition condition;
@@ -40,6 +45,8 @@ public class CurrentWeatherInfo {
 
     private String last_updated;
     private String wind_dir;
+
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getCurrentweatherinfoid() {
