@@ -24,7 +24,6 @@ public class UnitTest{
 
     @BeforeAll
     public static void setup() {
-    System.out.println("setup");
     // Step up one directory to get to the .env file
     String envPath = Paths.get(System.getProperty("user.dir"))
                           .getParent() // Go from /WeatherApp to /CS321-Group-5
@@ -65,11 +64,7 @@ public class UnitTest{
      * @throws IOException
      */
     void Test1() throws IOException{
-        String apiKey = dotenv.get("WEATHER_API_KEY");
-        String mysqlPassword = dotenv.get("MYSQL_PASSWORD");
 
-        //System.out.println("API Key: " + apiKey);
-        //System.out.println("MySQL Password: " + mysqlPassword);
         String input[] = {"Fairfax", "New York", "Paris", "Beijing", "Sydney"};
         for(String city: input){
             CurrentWeather weather = WeatherAppController.getCurrentWeatherCitySearch(city);

@@ -108,7 +108,6 @@ public class WeatherAppController {
         
         String encodedCity = URLEncoder.encode(cityName, StandardCharsets.UTF_8);
         String url = "http://api.weatherapi.com/v1/" + file + "?key=" + APIKEY + "&q=" + encodedCity + "&unixdt=" + unixdate;
-        System.out.println("Web Link: " + url);
         
         return withRetries(() -> {
             RestTemplate rt = new RestTemplate();
