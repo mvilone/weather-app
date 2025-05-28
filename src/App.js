@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/mvilone/weather-ap">
       <div className="app-container">
         <nav className="navbar">
           <div className="nav-title">The Weather App</div>
