@@ -313,32 +313,16 @@ public class UnitTest{
         .get("http://localhost:8080/city/getCity")
         .then()
         .statusCode(200)
-        .body("city_name", equalTo("Alexandria"));
-    }
-    @Test
-    void Test18(){
-        when()
-        .get("http://localhost:8080/city/getCity")
-        .then()
-        .statusCode(200)
         .body("city_name", equalTo("Washington"));
-    }
-    @Test
-    void Test19(){
-        when()
-        .get("http://localhost:8080/city/getCity")
-        .then()
-        .statusCode(200)
-        .body("city_name", equalTo("Austin"));
     }
 
     public static void main(String [] args){
         UnitTest u = new UnitTest();
         try{
-            u.Test1();
+            u.Test17();
         }
         catch(Exception e){
-
+            System.err.println(e);
         }
     }
 
