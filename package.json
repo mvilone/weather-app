@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/mvilone/weather-app/issues"
   },
-  "homepage": "https://github.com/mvilone/weather-app#readme",
+  "homepage": "/mvilone/weather-ap",
   "dependencies": {
     "@iconscout/react-unicons": "^2.2.4",
     "react": "^19.1.0",
