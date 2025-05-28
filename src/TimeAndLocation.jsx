@@ -1,22 +1,12 @@
-import React from 'react'
+import React from "react";
 
 function TimeAndLocation() {
   return (
-    <div>
-        <div className='flex item-center justify-center my-6'>
-            <p className='text-white text-xl font-extralight'>
-                Tuesday, 25, May 2023 | Local Time: 10:51 PM
-            </p>
-
-        </div>
-        <div className='flex items-center justify-center my-3'>
-            <p className='text-white text-3xl font-medium'>
-                Fairfax, VA
-            </p>
-        
-        </div>
+    <div className="text-white text-center py-4">
+      <p className="text-sm">Tuesday, 12 March 2025</p>
+      <h1 className="text-2xl font-bold">Washington, D.C.</h1>
     </div>
   );
 }
 
-export default TimeAndLocation
+export default TimeAndLocation;
