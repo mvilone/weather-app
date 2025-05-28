@@ -1,24 +1,13 @@
-import TopButtons from './TopButtons';
-import Inputs from './Inputs';
-import TimeAndLocation from './TimeAndLocation';
-import Details from './Details';
-import Forecast from './Forecast';
+import React from 'react';
+import WeatherImage from './weather-placeholder.png'; // add an image to src folder
 
 function Content() {
   return (
-    <div className="mx-auto max-w-screen-md mt-4 py-5 px-32 bg-gradient-to-br from-cyan-200 to-blue-700 h-fit shadow-xl
-    shadow-gray-400">
-      <TopButtons />
-      <Inputs />
-
-      <TimeAndLocation />
-      <Details />
-
-      <Forecast title = "Hourly Forecast" />
-      <Forecast title = "Daily Forecast" />
+    <div>
+      <h2>Weather Overview</h2>
+      <img src={WeatherImage} alt="Weather" style={{ width: '100%', maxWidth: '600px' }} />
     </div>
   );
-  
 }
 
 export default Content;

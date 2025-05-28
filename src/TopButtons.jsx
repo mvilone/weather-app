@@ -1,20 +1,19 @@
-import React from "react";
-
-function TopButtons() {
-  const cities = ["New York", "London", "Tokyo", "Sydney", "Paris"];
+const TopButtons = () => {
+  const cities = [
+    { id: 1, title: "Washington" },
+    { id: 2, title: "New York" },
+    { id: 3, title: "Tokyo" },
+    { id: 4, title: "Paris" },
+    { id: 5, title: "London" },
+  ];
 
   return (
-    <div className="flex justify-center gap-4 py-4">
-      {cities.map((city, index) => (
-        <button
-          key={index}
-          className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-600"
-        >
-          {city}
-        </button>
+    <div className="top-buttons">
+      {cities.map(city => (
+        <button key={city.id} className="city-button">{city.title}</button>
       ))}
     </div>
   );
-}
+};
 
 export default TopButtons;

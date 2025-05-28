@@ -1,23 +1,14 @@
-import React,{useState} from "react";
-function Login () {
-    const [email, setEmail] = useState("");
-    const [pass, setPass] = useState("");
+const Login = () => {
+  return (
+    <div className="form-container">
+      <h2>Login</h2>
+      <form>
+        <input type="text" placeholder="Username" />
+        <input type="password" placeholder="Password" />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
+};
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(email);
-
-    }
-
-    return (
-        <form onSubmit={handleSubmit}>
-            <label for="email">Email: </label>
-            <input value = {email} type="email" placeholder="Enter your email here." id="email" name="email"/>
-            <label for="password">Password: </label>
-            <input value = {pass} type="password" placeholder="Enter your password here." id="password" name="password"/>
-            <button type = "submit">Log In</button>
-        </form>
-    )
-}
-
-export default Login
+export default Login;
