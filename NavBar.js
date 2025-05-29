@@ -1,15 +1,24 @@
 import React from 'react'
 import {Link} from "react-router-dom"
+import "./styles.css"
+
  
 function NavBar() {
-  return (
+  const path = window.location.pathname
+  return <nav className='nav'>
+    <a href="/" className = "site-title">The Weather App</a>
     <ul>
-        <li><Link to="/">Login</Link></li>
-        <li><Link to="/Content">Content</Link></li>
-        <li><Link to="/Register">Register</Link></li>
-
+      <li>
+        <a href = "/content">Content</a>
+      </li>
+      <li>
+        <a href = "/login">Login</a>
+      </li>
+      <li>
+        <a href = "/register">Register</a>
+      </li>
     </ul>
-  )
+  </nav> 
 }
 
-export default NavBar
+export default NavBar;
