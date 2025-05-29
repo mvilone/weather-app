@@ -1,10 +1,7 @@
-const Inputs = () => {
+export default function Inputs() {
   return (
-    <div className="inputs">
-      <input type="text" placeholder="Search for city..." className="search-input" />
-      <button className="search-button">Search</button>
+    <div className="input-section">
+      <input type="text" placeholder="Search city..." />
     </div>
   );
-};
-
-export default Inputs;
+}

@@ -1,10 +1,9 @@
-const TimeAndLocation = () => {
+export default function TimeAndLocation() {
   return (
     <div className="time-location">
-      <h2>Tuesday, May 28, 2025</h2>
-      <h1>Washington, US</h1>
+      <h2>Fairfax, VA</h2>
+      <p>Clear Skies</p>
+      <p>Tuesday, 25 May 2023 | Local Time: 10:51 PM</p>
     </div>
   );
-};
-
-export default TimeAndLocation;
+}

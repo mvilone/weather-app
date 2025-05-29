@@ -1,11 +1,9 @@
-const Details = () => {
+export default function Details() {
   return (
-    <div className="details">
-      <div>Temperature: 20°C</div>
-      <div>Humidity: 60%</div>
-      <div>Wind Speed: 15 km/h</div>
+    <div className="details-section">
+      <p>🌡️ Real feel: 32°C</p>
+      <p>💧 Humidity: 65%</p>
+      <p>🌬️ Wind Speed: 11 m/h</p>
     </div>
   );
-};
-
-export default Details;
+}
