@@ -18,7 +18,6 @@ const Inputs = () => {
     catch (err){
       console.error("Error fetching data:", err.message);
     }
-    console.log("Search clicked for city:", city);
   };
 
   return (

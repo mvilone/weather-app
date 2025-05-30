@@ -30,6 +30,27 @@ public class City extends WeatherData implements CityInterface{
      * This represents the citiy's id for the HashCode in which it uses the cities name.
      */
     private String city_name;
+    /**
+     * Gives the country associated with the city.
+     */
+    private String country;
+    public String getCountry() {
+        return country;
+    }
+    public void setCountry(String country) {
+        this.country = country;
+    }
+    /**
+     * Give current time for city
+     */
+    private String localtime;
+
+    public String getLocaltime() {
+        return localtime;
+    }
+    public void setLocaltime(String localtime) {
+        this.localtime = localtime;
+    }
     /*
     /**
      * This represents the city's current weather that day's hourly weather.

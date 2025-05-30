@@ -230,6 +230,8 @@ public class WeatherAppController {
         flag = flagString.charAt(0);
         CurrentWeather currentweather = initializeCityObject(flag, cityName, zipcode);
         cityObject.setCurrentweather(currentweather);
+        cityObject.setCountry(currentweather.getLocation().getCountry());
+        cityObject.setLocaltime(currentweather.getLocation().getLocaltime()); 
         getPreviousDaysForCity(currentweather.getLocation().getName(), 5);
         getNextDaysForCity(currentweather.getLocation().getName(), 5);
 
