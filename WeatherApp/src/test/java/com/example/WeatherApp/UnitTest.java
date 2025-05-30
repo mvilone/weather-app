@@ -15,31 +15,45 @@ import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.equalTo;
 import java.nio.file.Paths;
 import java.util.concurrent.Callable;
+import io.github.cdimascio.dotenv.Dotenv;
+
+import org.junit.jupiter.api.BeforeAll;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 @SpringBootTest
 /**
  * This class tests that the api extraction and behavior.
  */
 public class UnitTest{
-    static Dotenv dotenv;
+    private static Dotenv dotenv;
 
     @BeforeAll
     public static void setup() {
-    // Step up one directory to get to the .env file
-    String envPath = Paths.get(System.getProperty("user.dir"))
-                          .getParent() // Go from /WeatherApp to /CS321-Group-5
-                          .toString();
+        // Get the directory where the test is running
+        String userDir = System.getProperty("user.dir");
+        System.out.println("Current working directory: " + userDir);
 
-    dotenv = Dotenv.configure()
-                   .filename(".env")
-                   .directory(envPath)
-                   .load();
+        // Move one level up to get the parent directory (CS321-Group-5)
+        String envDirectory = Paths.get(userDir).getParent().toString();
+        Path envFilePath = Paths.get(envDirectory, ".env");
 
-    // Set the properties Spring Boot expects for MySQL
-    System.setProperty("spring.datasource.username", "root");  // or get from dotenv if not hardcoded
-    System.setProperty("spring.datasource.password", dotenv.get("MYSQL_PASSWORD"));
+        // Check if the .env file exists
+        if (!Files.exists(envFilePath)) {
+            throw new RuntimeException(".env file not found at: " + envFilePath.toAbsolutePath());
+        }
 
-    // Optional custom properties
-    System.setProperty("weather.api.key", dotenv.get("WEATHER_API_KEY"));
+        // Load environment variables from the .env file
+        dotenv = Dotenv.configure()
+                       .filename(".env")
+                       .directory(envDirectory)
+                       .load();
+
+        // Set Spring Boot properties using the loaded environment variables
+        System.setProperty("spring.datasource.username", "root");  // or dotenv.get("MYSQL_USERNAME") if dynamic
+        System.setProperty("spring.datasource.password", dotenv.get("MYSQL_PASSWORD"));
+        System.setProperty("weather.api.key", dotenv.get("WEATHER_API_KEY"));
     }
      
     @Test
