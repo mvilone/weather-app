@@ -127,7 +127,7 @@ public class WeatherAppController {
         }
         CurrentWeather current = getCurrentWeatherCitySearch(cityName);
         int unix_date_time = current.getLocation().getLocaltime_epoch();
-        int number_of_secondInXDay = (NUMBER_OF_SEC_HR * 24) * xDay;
+        int number_of_secondInXDay = (NUMBER_OF_SEC_HR * 24) * (xDay + 1);
         unix_date_time -= (number_of_secondInXDay);
         ForecastedWeather instanceForecasted = null;
         for(int x = 0; x < xDay; ++x){
