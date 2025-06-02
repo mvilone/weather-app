@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 
-const TimeandLocation = () => {
+const TimeandLocation = ({weatherData}) => {
   const [formattedDateTime, setFormattedDateTime] = useState("");
   const [cityDisplay, setCityDisplay] = useState("");
   const countryMap = {
@@ -205,18 +205,10 @@ const TimeandLocation = () => {
 
   const fetchTimeAndLocation = async () => {
     try{
-      const response = await fetch("http://localhost:8080/city/getCity");
-      if(!response.ok){
-        throw new Error("Failed to fetch weather data");
-      }
-      const data = await response.json();
       // Extract the key info
-      const city = data.city_name;
-      const lastUpdated = data.currentweather?.current?.last_updated;
-      const tempC = data.currentweather?.current?.temp_c;
-      const condition = data.currentweather?.current?.condition?.text;
-      const country = data.country;
-      const localTime = data.localtime;
+      const city = weatherData.city_name;
+      const country = weatherData.country;
+      const localTime = weatherData.localtime;
       const dateObj = new Date(localTime);
       
       const dayOfWeek = dateObj.toLocaleDateString('en-US', { weekday: 'long' });
@@ -230,21 +222,23 @@ const TimeandLocation = () => {
       setCityDisplay(`${city}, ${abbreviatedCountry}`);
 
       
-      console.log("City:", city);
-      console.log("Local Time:", localTime);
-      console.log("Temperature (°C):", tempC);
-      console.log("Condition:", condition);
-      console.log("Country:", country);
-      console.log("Formatted Date & Time:", formatted);
-      console.log("Full response:", JSON.stringify(data, null, 2));
+      //console.log("City:", city);
+      //console.log("Local Time:", localTime);
+      //console.log("Temperature (°C):", tempC);
+      //console.log("Condition:", condition);
+      //console.log("Country:", country);
+      //console.log("Formatted Date & Time:", formatted);
+      //console.log("Full response:", JSON.stringify(data, null, 2));
     }
     catch (err){
       console.error("Error fetching data:", err.message);
     }
   };
   useEffect(() => {
-    fetchTimeAndLocation(); // ✅ call it on component load
-  }, []);
+    if(weatherData){
+      fetchTimeAndLocation(); //  call it on component load
+    }
+  }, [weatherData]);
   return (
     <div>
         <div className="flex iterms-center justify-center my-6">

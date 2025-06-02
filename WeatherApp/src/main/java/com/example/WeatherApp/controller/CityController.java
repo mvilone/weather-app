@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.WeatherApp.api.WeatherAppController;
@@ -30,10 +31,15 @@ public class CityController {
 
     }
     @GetMapping("/getCity")
-    public City get(){
+    public City get(@RequestParam(required = false) String name){
         City city = null;
         try{
-            city = WeatherAppController.populateCity('i', null, -1);
+            if((name != null) && (!name.isEmpty())){ 
+                city = WeatherAppController.populateCity('c', name, -1);
+            }
+            else{
+                city = WeatherAppController.populateCity('i', null, -1);
+            }
         }
         catch(IOException e){
 
@@ -49,8 +55,7 @@ public class CityController {
         city.setFutureFiveDays(city.getFutureDays().toArrayList());
         for(Day d : city.getPastFiveDays()){
             d.setTwenty4Hours(d.getHoursMap().toArrayList());
-            d.setHoursMap(null);
-            d.setDate(d.getForecast().getDate()); 
+            d.setHoursMap(null); 
             d.setForecast(null);
             d.setLocation(null);
             for(Hour h: d.getTwenty4Hours()){
@@ -61,7 +66,6 @@ public class CityController {
         for(Day d : city.getFutureFiveDays()){
             d.setTwenty4Hours(d.getHoursMap().toArrayList());
             d.setHoursMap(null);
-            d.setDate(d.getForecast().getDate()); 
             d.setForecast(null);
             d.setLocation(null);
             for(Hour h: d.getTwenty4Hours()){

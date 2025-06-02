@@ -23,6 +23,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.net.URLEncoder;
 
 @RestController
@@ -101,7 +104,7 @@ public class WeatherAppController {
         return currentWeather;
     }
 
-    public static ForecastedWeather getForecastWeatherCitySearch(String cityName, String file, int unixdate) throws IOException {
+    public static ForecastedWeather getForecastWeatherCitySearch(String cityName, String file, long unixdate) throws IOException {
         if (containsNonCharacter(cityName)) {
             throw new IOException("Input must be a-z or A-Z");
         }
@@ -121,25 +124,48 @@ public class WeatherAppController {
 
 
     
-    public static City getPreviousDaysForCity(String cityName, int xDay) throws IOException{
-        if(containsNonCharacter(cityName)){
+    public static City getPreviousDaysForCity(String cityName, int xDay) throws IOException {
+        if (containsNonCharacter(cityName)) {
             throw new IOException("Input must be a-z or A-Z");
         }
+        
         CurrentWeather current = getCurrentWeatherCitySearch(cityName);
-        int unix_date_time = current.getLocation().getLocaltime_epoch();
-        int number_of_secondInXDay = (NUMBER_OF_SEC_HR * 24) * (xDay + 1);
-        unix_date_time -= (number_of_secondInXDay);
+        
+        // Extract time zone and local time
+        String timeZone = current.getLocation().getTz_id();
+        long localEpoch = current.getLocation().getLocaltime_epoch();
+        
+        // Convert to ZonedDateTime in city's local time
+        ZonedDateTime currentCityTime = Instant.ofEpochSecond(localEpoch).atZone(ZoneId.of(timeZone));
+        
+        // Normalize to today's midnight in the city's time zone
+        ZonedDateTime todayMidnight = currentCityTime.toLocalDate().atStartOfDay(currentCityTime.getZone());
+        
+        // Go back x+1 days to avoid including today
+        ZonedDateTime startMidnight = todayMidnight.minusDays(xDay);
+        long unix_date_time = startMidnight.toEpochSecond();
+        
+        // Debug prints
+        System.out.println("City time zone: " + timeZone);
+        System.out.println("Current city time: " + currentCityTime);
+        System.out.println("Start midnight: " + startMidnight);
+        System.out.println("Start unix timestamp: " + unix_date_time);
+
         ForecastedWeather instanceForecasted = null;
-        for(int x = 0; x < xDay; ++x){
+        for (int x = 0; x < xDay; ++x) {
+            ZonedDateTime forecastDate = ZonedDateTime.ofInstant(Instant.ofEpochSecond(unix_date_time), ZoneId.of(timeZone));
+            System.out.println("Fetching history for timestamp: " + unix_date_time + " (" + Instant.ofEpochSecond(unix_date_time).atZone(ZoneId.of(timeZone)) + ")");
             instanceForecasted = getForecastWeatherCitySearch(cityName, "history.json", unix_date_time);
             Day current_day = instanceForecasted.getForecast().getForecastday().get(0).getDay();
             current_day.setForecast(instanceForecasted.getForecast().getForecastday().get(0));
             current_day.setDay_number(x + 1);
+            current_day.setDate(forecastDate.toLocalDate().toString());
             cityObject.addToPastXDays(current_day);
             unix_date_time += (NUMBER_OF_SEC_HR * 24);
         }
-        for(int x = 0; x < xDay; ++x){
-            for(int y = 0; y < 24; ++y){
+        
+        for (int x = 0; x < xDay; ++x) {
+            for (int y = 0; y < 24; ++y) {
                 Hour h = cityObject.getPastDays().obtain_element(x + 1).getForecast().getHour().get(y);
                 h.setHour_number(y);
                 cityObject.getPastDays().obtain_element(x + 1).addToHours(h);
@@ -148,31 +174,63 @@ public class WeatherAppController {
         return cityObject;
     }
 
-    public static City getNextDaysForCity(String cityName, int xDay) throws IOException{
-        if(containsNonCharacter(cityName)){
+
+    public static City getNextDaysForCity(String cityName, int xDay) throws IOException {
+        if (containsNonCharacter(cityName)) {
             throw new IOException("Input must be a-z or A-Z");
         }
+        
         CurrentWeather current = getCurrentWeatherCitySearch(cityName);
-        int unix_date_time = current.getLocation().getLocaltime_epoch();
-        unix_date_time += NUMBER_OF_SEC_HR * 24;
+        
+        // PRINT 1: Raw data from API
+        System.out.println("Raw localtime string: " + current.getLocation().getLocaltime());
+        System.out.println("Raw localtime_epoch: " + current.getLocation().getLocaltime_epoch());
+        System.out.println("Time zone ID: " + current.getLocation().getTz_id());
+
+        String timeZone = current.getLocation().getTz_id();
+        long localEpoch = current.getLocation().getLocaltime_epoch();
+        
+        // Convert epoch to ZonedDateTime
+        Instant instantFromEpoch = Instant.ofEpochSecond(localEpoch);
+        ZonedDateTime currentCityTime = instantFromEpoch.atZone(ZoneId.of(timeZone));
+        
+        // PRINT 2: Conversion results
+        System.out.println("Converted Instant: " + instantFromEpoch); // UTC time
+        System.out.println("Converted ZonedDateTime: " + currentCityTime); // should match localtime
+        
+        // Today's and Tomorrow's midnight
+        ZonedDateTime todayMidnight = currentCityTime.toLocalDate().atStartOfDay(currentCityTime.getZone());
+        ZonedDateTime tomorrowMidnight = todayMidnight.plusDays(1);
+        long unix_date_time = tomorrowMidnight.toEpochSecond();
+        
+        // PRINT 3: Midnight references
+        System.out.println("Today midnight (ZDT): " + todayMidnight);
+        System.out.println("Tomorrow midnight (ZDT): " + tomorrowMidnight);
+        System.out.println("Tomorrow midnight (Unix timestamp): " + unix_date_time);
+        
         ForecastedWeather instanceForecasted = null;
-        for(int x = 0; x < xDay; ++x){
+        for (int x = 0; x < xDay; ++x) {
+            ZonedDateTime forecastDate = ZonedDateTime.ofInstant(Instant.ofEpochSecond(unix_date_time), ZoneId.of(timeZone));
+            System.out.println("Line 3 - before API call: " + unix_date_time + " (" + Instant.ofEpochSecond(unix_date_time).atZone(ZoneId.of(timeZone)) + ")");
             instanceForecasted = getForecastWeatherCitySearch(cityName, "forecast.json", unix_date_time);
             Day current_day = instanceForecasted.getForecast().getForecastday().get(0).getDay();
             current_day.setForecast(instanceForecasted.getForecast().getForecastday().get(0));
             current_day.setDay_number(x + 1);
+            current_day.setDate(forecastDate.toLocalDate().toString());
             cityObject.addToFutureXDays(current_day);
             unix_date_time += (NUMBER_OF_SEC_HR * 24);
         }
-        for(int x = 0; x < xDay; ++x){
-            for(int y = 0; y < 24; ++y){
+        
+        for (int x = 0; x < xDay; ++x) {
+            for (int y = 0; y < 24; ++y) {
                 Hour h = cityObject.getFutureDays().obtain_element(x + 1).getForecast().getHour().get(y);
                 h.setHour_number(y);
                 cityObject.getFutureDays().obtain_element(x + 1).addToHours(h);
             }
         }
         return cityObject;
-    } 
+    }
+
 
     public static CurrentWeather getHourlyForCurrent(CurrentWeather currentweather)throws IOException{
         String cityName = currentweather.getLocation().getName();
@@ -180,6 +238,7 @@ public class WeatherAppController {
         ForecastedWeather forecastedweather = getForecastWeatherCitySearch(cityName, "forecast.json", currentDateInUnix);
         Day currentDay = forecastedweather.getForecast().getForecastday().get(0).getDay();
         currentDay.setForecast(forecastedweather.getForecast().getForecastday().get(0));
+        currentDay.setAstro(forecastedweather.getForecast().getForecastday().get(0).getAstro());
         for(int x = 0; x < 24; ++x){
             Hour h = currentDay.getForecast().getHour().get(x);
             h.setHour_number(x);
@@ -231,7 +290,8 @@ public class WeatherAppController {
         CurrentWeather currentweather = initializeCityObject(flag, cityName, zipcode);
         cityObject.setCurrentweather(currentweather);
         cityObject.setCountry(currentweather.getLocation().getCountry());
-        cityObject.setLocaltime(currentweather.getLocation().getLocaltime()); 
+        cityObject.setLocaltime(currentweather.getLocation().getLocaltime());
+        cityObject.setTz_id(currentweather.getLocation().getTz_id()); 
         getPreviousDaysForCity(currentweather.getLocation().getName(), 5);
         getNextDaysForCity(currentweather.getLocation().getName(), 5);
 

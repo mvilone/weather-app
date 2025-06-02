@@ -3,25 +3,81 @@ import {BiSolidDropletHalf} from "react-icons/bi"
 import {FiWind} from "react-icons/fi"
 import { GiSunrise, GiSunset } from "react-icons/gi"
 import { MdKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md"
-const TempAndDetails = () => {
+import { useEffect, useState } from 'react';
+const TempAndDetails = ({weatherData}) => {
+  const [tempC, setTempC] = useState(null);
+  const [feelsLike, setFeelsLike] = useState(null);
+  const [humidity, setHumidity] = useState(null);
+  const [windKph, setWindKph] = useState(null);
+  const [minTempC, setMinTempC] = useState(null);
+  const [maxTempC, setMaxTempC] = useState(null);
+  const [sunrise, setSunrise] = useState(null);
+  const [sunset, setSunSet] = useState(null);
+  const fetchTimeAndDetails = async () => {
+      try{
+        // Extract the key info
+        const tempC = weatherData.currentweather?.current?.temp_c;
+        const tempF = weatherData.currentweather?.current?.temp_f;
+        const feelsLike = weatherData.currentweather?.current?.feelslike_c;
+        const humidity = weatherData.currentweather?.current?.humidity;
+        const windKph = weatherData.currentweather?.current?.wind_kph;
+        const astro = weatherData?.currentweather?.currentDay?.astro;
+        const sunrise = astro?.sunrise;
+        const sunset = astro?.sunset;
+        const twenty4Hours = weatherData?.currentweather?.currentDay?.twenty4Hours;
+        if (twenty4Hours) {
+          const temps = Object.values(twenty4Hours)
+          .map(hour => hour.temp_c)
+          .filter(temp => typeof temp === 'number');
+          const maxTempC = Math.max(...temps);
+          const minTempC = Math.min(...temps);
+          setMinTempC(minTempC);
+          setMaxTempC(maxTempC);
+          console.log("Max Temp (°C):", maxTempC);
+          console.log("Min Temp (°C):", minTempC);
+        }
+
+
+        setTempC(tempC);
+        setFeelsLike(feelsLike);
+        setHumidity(humidity);
+        setWindKph(windKph);
+        setSunrise(sunrise);
+        setSunSet(sunset);
+        console.log("tempC:", tempC);
+        console.log("tempF:", tempF);
+        console.log("Feels Like (°C):", feelsLike);
+        console.log("Humidity (%):", humidity);
+        console.log("Wind Speed (kph):", windKph);
+
+      }
+      catch (err){
+        console.error("Error fetching data:", err.message);
+      }
+    };
+    useEffect(() => {
+      if(weatherData){
+        fetchTimeAndDetails(); // ✅ call it on component load
+      }
+    }, [weatherData]);
   const verticalDetails = [
     {
       id:1,
       Icon: FaThermometerEmpty,
       title: "Real Feel",
-      value: "22°"
+      value: feelsLike !== null ? `${feelsLike}°` : "Loading..."
     },
     {
       id:2,
       Icon: BiSolidDropletHalf,
       title: "Humidity",
-      value: "36%"
+      value: humidity !== null ? `${humidity}%` : "Loading..."
     },
     {
       id:3,
       Icon: FiWind,
       title: "Wind",
-      value: "11 km/h"
+      value: windKph !== null ? `${windKph} km/h` : "Loading..."
     }
   ];
 
@@ -30,25 +86,25 @@ const TempAndDetails = () => {
       id:1,
       Icon: GiSunrise,
       title: "Sunrise",
-      value: "05:33 AM"
+      value: sunrise !== null ? `${sunrise}` : "Loading..."
     },
     {
       id:2,
       Icon: GiSunset,
       title: "Sunset",
-      value: "08:33 PM"
+      value: sunset !== null ? `${sunset}` : "Loading..."
     },
     {
       id:3,
       Icon: MdKeyboardArrowUp,
       title: "High",
-      value: "37°"
+      value: maxTempC !== null ? `${maxTempC}°` : "Loading..."
     },
     {
       id:4,
       Icon: MdKeyboardArrowDown,
       title: "Low",
-      value: "7°"
+      value: minTempC !== null ? `${minTempC}°` : "Loading..."
     }
   ];
 
@@ -62,7 +118,7 @@ const TempAndDetails = () => {
         alt="weather icon"
         className="w-20"
         />
-        <p className="text-5xl">34°</p>
+        <p className="text-5xl">{tempC !== null ? `${tempC}°` : "Loading..."}</p>
         <div className="flex flex-col space-y-3 items-start">
           {
             verticalDetails.map(({id, Icon, title, value}) => (
