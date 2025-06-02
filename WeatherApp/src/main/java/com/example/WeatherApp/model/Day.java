@@ -9,6 +9,7 @@ import com.example.WeatherApp.database.CustomHashMap;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,6 +34,14 @@ public class Day extends WeatherData{
     private String date;
     private Integer day_number;
     private double maxtemp_c;
+    @Embedded
+    private Astro astro;
+    public Astro getAstro() {
+        return astro;
+    }
+    public void setAstro(Astro astro) {
+        this.astro = astro;
+    }
     private List<Hour> twenty4Hours = new ArrayList<Hour>();
     /**
      * This is a HashMap that stores the data for twenty 4 hours weather data for the instance of the day.

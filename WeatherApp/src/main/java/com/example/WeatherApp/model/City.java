@@ -41,6 +41,17 @@ public class City extends WeatherData implements CityInterface{
         this.country = country;
     }
     /**
+     * Give the local time zone
+     */
+    public String tz_id;
+    
+    public String getTz_id() {
+        return tz_id;
+    }
+    public void setTz_id(String tz_id) {
+        this.tz_id = tz_id;
+    }
+    /**
      * Give current time for city
      */
     private String localtime;

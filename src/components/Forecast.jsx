@@ -1,11 +1,57 @@
 import React from 'react'
+import { useEffect, useState } from 'react';
 
-const Forecast = () => {
+const Forecast = ({weatherData}) => {
   const data = [1, 2, 3, 4, 5];
+  const getShortWeekday = (dateString, timeZone) => {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      weekday: 'short',
+      timeZone: timeZone,
+    });
+
+    // Interpret date as local time (NOT UTC)
+    const localDateString = `${dateString}T00:00:00`;
+    const date = new Date(localDateString);
+
+    return formatter.format(date);
+  };
+
+
+
+
+
+
+
+
+
+  const fetchForecast = async () => {
+      try{
+        // Extract the key info
+        //console.log("Forecast response:", JSON.stringify(weatherData, null, 2));
+        console.log(getShortWeekday("2025-06-02", "Asia/Tokyo")); // should print "Tue"
+        const futureFiveDays = weatherData.futureFiveDays
+        const timeZone = weatherData.tz_id
+        console.log("timeZone: ", timeZone);
+        futureFiveDays.forEach(day => {
+          const weekday = getShortWeekday(day.date, timeZone);
+          console.log(`Day: ${weekday}, Max Temp: ${day.maxtemp_c}°C, Date: ${day.date}`);
+        });
+        console.log("Future Five Days", futureFiveDays);
+
+      }
+      catch (err){
+        console.error("Error fetching data:", err.message);
+      }
+    };
+    useEffect(() => {
+      if(weatherData){
+        fetchForecast(); //  call it on component load
+      }
+    }, [weatherData]);
   return (
     <div>
       <div className="flex items-center justify-start mt-6">
-        <p className="font-medium uppercase">3 hour step forecast</p>
+        <p className="font-medium uppercase">Five Day Forecast</p>
       </div>
       <hr className="my-1" />
       <div className="flex items-center justify-between">

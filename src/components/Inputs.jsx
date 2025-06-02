@@ -1,24 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {BiSearch, BiCurrentLocation} from "react-icons/bi";
 
-const Inputs = () => {
+const Inputs = ({setWeatherData}) => {
+  console.log("Inputs component mounted");
+  console.log("typeof setWeatherData:", typeof setWeatherData);
   const [city, setCity] = useState("");
   const handleSearchClick = async () => {
-    if(!city){
-      return;
-    }
+    console.log("city: ", city);
     try{
-      const response = await fetch(`http://localhost:8080/city/getCity?name=${encodeURIComponent(city)}`);
+      let response;
+      if(!city){
+        response = await fetch("http://localhost:8080/city/getCity");
+        console.log("1");
+      }
+      else{
+        response = await fetch(`http://localhost:8080/city/getCity?name=${encodeURIComponent(city)}`);
+        console.log("2");
+      }
       if(!response.ok){
         throw new Error("Failed to fetch weather data");
       }
       const data = await response.json();
-      console.log("Received weather data:", data);
+      console.log("Data:", JSON.stringify(data, null, 2));
+      setWeatherData(data);
     }
     catch (err){
       console.error("Error fetching data:", err.message);
     }
   };
+  
+  useEffect(() => {
+      if (!city) {
+        handleSearchClick();
+      }
+  }, []); 
 
   return (
     <div className="flex flex-row justify-center my-6">
