@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {BiSearch, BiCurrentLocation} from "react-icons/bi";
 
-const Inputs = ({setWeatherData}) => {
+const Inputs = ({setWeatherData, setTempType}) => {
   console.log("Inputs component mounted");
   console.log("typeof setWeatherData:", typeof setWeatherData);
   const [city, setCity] = useState("");
@@ -63,9 +63,9 @@ const Inputs = ({setWeatherData}) => {
         <BiCurrentLocation size = {30} className="cursor-pointer transition ease-out hover:scale-125" onClick={handleSearchClick2}/>
       </div>
       <div className="flex flex-row w-1/4 items-center justify-center">
-      <button className="text-2xl font-medium transition ease-out hover:scale-125">°C</button>
+      <button className="text-2xl font-medium transition ease-out hover:scale-125" onClick={() => setTempType("C")}>°C</button>
       <p className="text2xl font-medium mx-1">|</p>
-      <button className="text-2xl font-medium transition ease-out hover:scale-125">°F</button>
+      <button className="text-2xl font-medium transition ease-out hover:scale-125" onClick={() => setTempType("F")}>°F</button>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const HourlyC = ({ weatherData }) => {
+const HourlyC = ({ weatherData, tempType }) => {
   const [hourly, setHourly] = useState([]);
 
   const convertTo12HourFormat = (time24) => {
@@ -26,8 +26,13 @@ const HourlyC = ({ weatherData }) => {
         const result = sortedHours.map(hour => {
           const timePart = hour.time.split(' ')[1];
           const formattedTime = convertTo12HourFormat(timePart);
-          return { formattedTime, temp_c: hour.temp_c };
+          return {
+            formattedTime,
+            temp_c: hour.temp_c,
+            temp_f: hour.temp_f,
+          };
         });
+
 
         setHourly(result);
       }
@@ -38,7 +43,7 @@ const HourlyC = ({ weatherData }) => {
 
   useEffect(() => {
     if (weatherData) fetchHourlyC();
-  }, [weatherData]);
+  }, [weatherData, tempType]);
 
   return (
     <div className="mt-6">
@@ -65,7 +70,7 @@ const HourlyC = ({ weatherData }) => {
               <div className="w-5 h-5 bg-orange-500 rounded-full mb-1" />
 
               {/* Temperature */}
-              <div className="text-lg font-semibold">{Math.round(hour.temp_c)}°</div>
+              <div className="text-lg font-semibold">{Math.round(tempType === "F" ? hour.temp_f : hour.temp_c)}°</div>
             </div>
           ))}
         </div>

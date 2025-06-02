@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 
-const History = ({weatherData}) => {
+const History = ({weatherData, tempType}) => {
   const data = [1, 2, 3, 4, 5];
   const [pastDays, setPastDays] = useState([]);
   const getShortWeekday = (dateString, timeZone) => {
@@ -37,7 +37,9 @@ const History = ({weatherData}) => {
           const weekday = getShortWeekday(day.date, timeZone);
           return {
             weekday,
-            maxtemp_c: day.maxtemp_c
+            maxTemp: tempType === "F"
+            ? (day.maxtemp_c * 9) / 5 + 32
+            : day.maxtemp_c
           };
         });
         setPastDays(pastDays);
@@ -52,7 +54,7 @@ const History = ({weatherData}) => {
       if(weatherData){
         fetchHistory(); //  call it on component load
       }
-    }, [weatherData]);
+    }, [weatherData, tempType]);
   return (
     <div>
       <div className="flex items-center justify-start mt-6">
@@ -68,7 +70,7 @@ const History = ({weatherData}) => {
             alt="weather icon"
             className="w-12 my-1"
             />
-            <p className="font-medium">{Math.round(day.maxtemp_c)}°</p>
+            <p className="font-medium">{Math.round(day.maxTemp)}°</p>
           </div>
         ))}
       </div>
