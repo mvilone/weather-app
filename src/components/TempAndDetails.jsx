@@ -4,51 +4,63 @@ import {FiWind} from "react-icons/fi"
 import { GiSunrise, GiSunset } from "react-icons/gi"
 import { MdKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md"
 import { useEffect, useState } from 'react';
-const TempAndDetails = ({weatherData}) => {
-  const [tempC, setTempC] = useState(null);
+const TempAndDetails = ({weatherData, tempType}) => {
+  const [temp, setTemp] = useState(null);
   const [feelsLike, setFeelsLike] = useState(null);
   const [humidity, setHumidity] = useState(null);
-  const [windKph, setWindKph] = useState(null);
-  const [minTempC, setMinTempC] = useState(null);
-  const [maxTempC, setMaxTempC] = useState(null);
+  const [wind, setWind] = useState(null);
+  const [minTemp, setMinTemp] = useState(null);
+  const [maxTemp, setMaxTemp] = useState(null);
   const [sunrise, setSunrise] = useState(null);
   const [sunset, setSunSet] = useState(null);
+  const [speed_unit, setSpeedUnit] = useState(null);
   const fetchTimeAndDetails = async () => {
       try{
         // Extract the key info
-        const tempC = weatherData.currentweather?.current?.temp_c;
-        const tempF = weatherData.currentweather?.current?.temp_f;
-        const feelsLike = weatherData.currentweather?.current?.feelslike_c;
+        let temp;
+        let feelsLike;
+        let wind;
+        if(tempType == "C"){
+          temp = weatherData.currentweather?.current?.temp_c;
+          feelsLike = weatherData.currentweather?.current?.feelslike_c;
+          wind = weatherData.currentweather?.current?.wind_kph;
+          setSpeedUnit("km/h");
+
+        }
+        else{
+          temp = weatherData.currentweather?.current?.temp_f;
+          feelsLike = weatherData.currentweather?.current?.feelslike_f;
+          wind = weatherData.currentweather?.current?.wind_mph;
+          setSpeedUnit("mph");
+        }
         const humidity = weatherData.currentweather?.current?.humidity;
-        const windKph = weatherData.currentweather?.current?.wind_kph;
         const astro = weatherData?.currentweather?.currentDay?.astro;
         const sunrise = astro?.sunrise;
         const sunset = astro?.sunset;
         const twenty4Hours = weatherData?.currentweather?.currentDay?.twenty4Hours;
         if (twenty4Hours) {
           const temps = Object.values(twenty4Hours)
-          .map(hour => hour.temp_c)
+          .map(hour => tempType === "C" ? hour.temp_c : hour.temp_f)
           .filter(temp => typeof temp === 'number');
-          const maxTempC = Math.max(...temps);
-          const minTempC = Math.min(...temps);
-          setMinTempC(minTempC);
-          setMaxTempC(maxTempC);
-          console.log("Max Temp (°C):", maxTempC);
-          console.log("Min Temp (°C):", minTempC);
+          const maxTemp = Math.max(...temps);
+          const minTemp = Math.min(...temps);
+          setMinTemp(minTemp);
+          setMaxTemp(maxTemp);
+          console.log("Max Temp (°C):", maxTemp);
+          console.log("Min Temp (°C):", minTemp);
         }
 
 
-        setTempC(tempC);
+        setTemp(temp);
         setFeelsLike(feelsLike);
         setHumidity(humidity);
-        setWindKph(windKph);
+        setWind(wind);
         setSunrise(sunrise);
         setSunSet(sunset);
-        console.log("tempC:", tempC);
-        console.log("tempF:", tempF);
+        console.log("temp:", temp);
         console.log("Feels Like (°C):", feelsLike);
         console.log("Humidity (%):", humidity);
-        console.log("Wind Speed (kph):", windKph);
+        console.log("Wind Speed (kph):", wind);
 
       }
       catch (err){
@@ -59,7 +71,7 @@ const TempAndDetails = ({weatherData}) => {
       if(weatherData){
         fetchTimeAndDetails(); // ✅ call it on component load
       }
-    }, [weatherData]);
+    }, [weatherData, tempType]);
   const verticalDetails = [
     {
       id:1,
@@ -77,7 +89,7 @@ const TempAndDetails = ({weatherData}) => {
       id:3,
       Icon: FiWind,
       title: "Wind",
-      value: windKph !== null ? `${windKph} km/h` : "Loading..."
+      value: wind !== null ? `${wind} ${speed_unit}` : "Loading..."
     }
   ];
 
@@ -98,13 +110,13 @@ const TempAndDetails = ({weatherData}) => {
       id:3,
       Icon: MdKeyboardArrowUp,
       title: "High",
-      value: maxTempC !== null ? `${maxTempC}°` : "Loading..."
+      value: maxTemp !== null ? `${maxTemp}°` : "Loading..."
     },
     {
       id:4,
       Icon: MdKeyboardArrowDown,
       title: "Low",
-      value: minTempC !== null ? `${minTempC}°` : "Loading..."
+      value: minTemp !== null ? `${minTemp}°` : "Loading..."
     }
   ];
 
@@ -118,7 +130,7 @@ const TempAndDetails = ({weatherData}) => {
         alt="weather icon"
         className="w-20"
         />
-        <p className="text-5xl">{tempC !== null ? `${tempC}°` : "Loading..."}</p>
+        <p className="text-5xl">{temp !== null ? `${temp}°` : "Loading..."}</p>
         <div className="flex flex-col space-y-3 items-start">
           {
             verticalDetails.map(({id, Icon, title, value}) => (
