@@ -4,6 +4,7 @@ import Inputs from "./components/Inputs";
 import TimeAndLocation from "./components/TimeAndLocation";
 import TempAndDetails from "./components/TempAndDetails";
 import TopButtons from "./components/TopButtons";
+import History from "./components/History";
 
 const App = () => {
   const [weatherData, setWeatherData] = useState(null);
@@ -19,7 +20,7 @@ const App = () => {
       <TimeAndLocation weatherData={weatherData} />
       <TempAndDetails weatherData={weatherData} />
       <Forecast weatherData={weatherData} />
-      <Forecast weatherData={weatherData} />
+      <History weatherData={weatherData} />
       <Forecast weatherData={weatherData} />
     </div>
   );

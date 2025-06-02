@@ -1,9 +1,9 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 
-const Forecast = ({weatherData}) => {
+const History = ({weatherData}) => {
   const data = [1, 2, 3, 4, 5];
-  const [forecastDays, setForecastDays] = useState([]);
+  const [pastDays, setPastDays] = useState([]);
   const getShortWeekday = (dateString, timeZone) => {
     const formatter = new Intl.DateTimeFormat('en-US', {
       weekday: 'short',
@@ -25,23 +25,23 @@ const Forecast = ({weatherData}) => {
 
 
 
-  const fetchForecast = async () => {
+  const fetchHistory = async () => {
       try{
         // Extract the key info
         //console.log("Forecast response:", JSON.stringify(weatherData, null, 2));
         console.log(getShortWeekday("2025-06-02", "Asia/Tokyo")); // should print "Tue"
-        const futureFiveDays = weatherData.futureFiveDays
+        const pastFiveDays = weatherData.pastFiveDays
         const timeZone = weatherData.tz_id
         console.log("timeZone: ", timeZone);
-        const futureDays = futureFiveDays.map(day => {
+        const pastDays = pastFiveDays.map(day => {
           const weekday = getShortWeekday(day.date, timeZone);
           return {
             weekday,
             maxtemp_c: day.maxtemp_c
           };
         });
-        setForecastDays(futureDays);
-        console.log("Future Five Days", futureFiveDays);
+        setPastDays(pastDays);
+        console.log("Past Five Days", pastFiveDays);
 
       }
       catch (err){
@@ -50,17 +50,17 @@ const Forecast = ({weatherData}) => {
     };
     useEffect(() => {
       if(weatherData){
-        fetchForecast(); //  call it on component load
+        fetchHistory(); //  call it on component load
       }
     }, [weatherData]);
   return (
     <div>
       <div className="flex items-center justify-start mt-6">
-        <p className="font-medium uppercase">Five Day Forecast</p>
+        <p className="font-medium uppercase">Past Five Days</p>
       </div>
       <hr className="my-1" />
       <div className="flex items-center justify-between">
-        {forecastDays.map((day, index) =>(
+        {pastDays.map((day, index) =>(
           <div key={index} 
           className="flex flex-col items-center justify-center">
             <p className="font-light text-sm">{day.weekday}</p>
@@ -76,4 +76,4 @@ const Forecast = ({weatherData}) => {
   )
 }
 
-export default Forecast
+export default History
