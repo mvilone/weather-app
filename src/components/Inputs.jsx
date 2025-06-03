@@ -1,22 +1,16 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import {BiSearch, BiCurrentLocation} from "react-icons/bi";
 
-const Inputs = ({setWeatherData}) => {
+const Inputs = ({ setWeatherData, setTempType, handleSearchClick, setCity, city }) => {
   console.log("Inputs component mounted");
   console.log("typeof setWeatherData:", typeof setWeatherData);
-  const [city, setCity] = useState("");
-  const handleSearchClick = async () => {
+
+  const handleSearchClick2 = async () => {
     console.log("city: ", city);
     try{
       let response;
-      if(!city){
-        response = await fetch("http://localhost:8080/city/getCity");
-        console.log("1");
-      }
-      else{
-        response = await fetch(`http://localhost:8080/city/getCity?name=${encodeURIComponent(city)}`);
-        console.log("2");
-      }
+      response = await fetch("http://localhost:8080/city/getCity");
+      console.log("1");
       if(!response.ok){
         throw new Error("Failed to fetch weather data");
       }
@@ -41,13 +35,13 @@ const Inputs = ({setWeatherData}) => {
         <input type="text" placeholder="search by city..." value={city} onChange={(e) => setCity(e.target.value)}
         className="bg-white text-black p-2 rounded-md w-full max-w-xs shadow-md focus:outline-none 
         text-xl font-light capitalize placeholder:lowercase" />
-        <BiSearch size = {30} className="cursor-pointer transition ease-out hover:scale-125" onClick={handleSearchClick}/>
-        <BiCurrentLocation size = {30} className="cursor-pointer transition ease-out hover:scale-125"/>
+        <BiSearch size = {30} className="cursor-pointer transition ease-out hover:scale-125" onClick={() => handleSearchClick(city)}/>
+        <BiCurrentLocation size = {30} className="cursor-pointer transition ease-out hover:scale-125" onClick={handleSearchClick2}/>
       </div>
       <div className="flex flex-row w-1/4 items-center justify-center">
-      <button className="text-2xl font-medium transition ease-out hover:scale-125">°C</button>
+      <button className="text-2xl font-medium transition ease-out hover:scale-125" onClick={() => setTempType("C")}>°C</button>
       <p className="text2xl font-medium mx-1">|</p>
-      <button className="text-2xl font-medium transition ease-out hover:scale-125">°F</button>
+      <button className="text-2xl font-medium transition ease-out hover:scale-125" onClick={() => setTempType("F")}>°F</button>
       </div>
     </div>
   );
